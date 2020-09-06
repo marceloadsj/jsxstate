@@ -4,24 +4,34 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ../node_modules/react-scripts/bin/react-scripts.js start",
-    "build": "node ../node_modules/react-scripts/bin/react-scripts.js build",
-    "test": "node ../node_modules/react-scripts/bin/react-scripts.js test",
-    "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject"
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test"
   },
   "dependencies": {
     "@testing-library/jest-dom": "link:../node_modules/@testing-library/jest-dom",
     "@testing-library/react": "link:../node_modules/@testing-library/react",
     "@testing-library/user-event": "link:../node_modules/@testing-library/user-event",
+    "@types/classnames": "^2.2.10",
     "@types/jest": "link:../node_modules/@types/jest",
     "@types/node": "link:../node_modules/@types/node",
     "@types/react": "link:../node_modules/@types/react",
     "@types/react-dom": "link:../node_modules/@types/react-dom",
+    "@types/react-router-dom": "^5.1.5",
+    "@types/react-syntax-highlighter": "^11.0.5",
+    "@xstate/react": "link:../node_modules/@xstate/react",
+    "autoprefixer": "^9.8.6",
+    "classnames": "^2.2.6",
+    "customize-cra": "^1.0.0",
+    "jsxstate": "link:..",
+    "prism-react-renderer": "^1.1.1",
     "react": "link:../node_modules/react",
+    "react-app-rewired": "^2.1.6",
     "react-dom": "link:../node_modules/react-dom",
     "react-scripts": "link:../node_modules/react-scripts",
+    "tailwindcss": "^1.8.2",
     "typescript": "link:../node_modules/typescript",
-    "jsxstate": "link:.."
+    "xstate": "link:../node_modules/xstate"
   },
   "devDependencies": {
     "@babel/plugin-syntax-object-rest-spread": "^7.8.3"
