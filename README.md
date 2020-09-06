@@ -4,6 +4,8 @@
 
 [![NPM](https://img.shields.io/npm/v/jsxstate.svg)](https://www.npmjs.com/package/jsxstate) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+## Please, do not use it in Production, it's a POC package and definitely not ready to the wild
+
 ## Install
 
 ```bash
