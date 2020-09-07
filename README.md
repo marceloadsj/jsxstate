@@ -4,19 +4,56 @@
 
 [![NPM](https://img.shields.io/npm/v/jsxstate.svg)](https://www.npmjs.com/package/jsxstate) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-### Please, do not use it in Production, it's a POC package and definitely not ready to the wild
+<br/>
+
+### _Please, do not use it in Production until the release of the version 1_
+
+---
+
+<br/>
+
+## Motivation
+
+The main idea of that package is to provide an easy way to write React UIs based on XState machines using components only (or mainly).
+
+---
+
+<br/>
+
+## APIs
+
+You can find each API individually below:
+
+### Components:
+
+[Interpret](https://github.com/marceloadsj/jsxstate/blob/master/src/components/Interpret/api.md)
+
+[Value](https://github.com/marceloadsj/jsxstate/blob/master/src/components/Value/api.md)
+
+[Send](https://github.com/marceloadsj/jsxstate/blob/master/src/components/Send/api.md)
+
+_WIP ..._
+
+### Hooks:
+
+_WIP ..._
+
+---
+
+<br/>
 
 ## Install
 
 ```bash
 npm install jsxstate --save
-```
 
-Or
-
-```bash
+# or
 yarn add jsxstate
 ```
+
+---
+
+<br/>
 
 ## Usage
 
@@ -100,6 +137,10 @@ export default function Counter() {
   )
 }
 ```
+
+---
+
+<br/>
 
 ## License
 
