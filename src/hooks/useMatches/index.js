@@ -1,15 +1,8 @@
-import { useContext } from 'react'
-import get from 'lodash.get'
+import { get } from '../../utils'
+import useContextMachine from '../useContextMachine'
 
-import { IUseMatchesArgs } from '../types'
-import MachineContext from '../MachineContext'
-
-type TUseMatches = (
-  args: IUseMatchesArgs
-) => boolean | ((value: string) => boolean)
-
-const useMatches: TUseMatches = ({ context, not, value }) => {
-  const [state] = useContext(MachineContext) || []
+export default function useMatches({ machineId, context, not, value }) {
+  const [state] = useContextMachine(machineId) || []
 
   if (state) {
     let valueMatches
@@ -33,5 +26,3 @@ const useMatches: TUseMatches = ({ context, not, value }) => {
 
   return false
 }
-
-export default useMatches

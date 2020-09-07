@@ -11,6 +11,8 @@ function travel(obj, path, regExp) {
 }
 
 export function get(obj, path) {
+  if (typeof path !== 'string') return obj
+
   let result = travel(obj, path, leftRegExp)
 
   if (result === undefined) {
@@ -21,11 +23,11 @@ export function get(obj, path) {
 }
 
 export function getEventListener({ state, send, type }) {
-  return (...args) => {
+  return (event) => {
     let parsedType = type
 
     if (typeof type === 'function') {
-      parsedType = type(...args, state, send)
+      parsedType = type(event, state, send)
     }
 
     if (!parsedType) return

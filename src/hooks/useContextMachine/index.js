@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import MachineContext from '../MachineContext'
+import MachineContext from '../../MachineContext'
 
 export default function useContextMachine(id) {
   const allMachines = useContext(MachineContext)

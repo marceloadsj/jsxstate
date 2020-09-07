@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react'
 
-import { getEventListener, getAttributeValue } from '../utils'
-import { reactEvents, reactAttributes } from '../constants'
-import useContextMachine from '../hooks/useContextMachine'
+import { getEventListener, getAttributeValue } from '../../utils'
+import { reactEvents, reactAttributes } from '../../constants'
+import useContextMachine from '../../hooks/useContextMachine'
 
 function Send({ as = 'div', machineId, ...props }, ref) {
   const context = useContextMachine(machineId)

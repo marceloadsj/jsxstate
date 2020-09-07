@@ -1,8 +1,8 @@
-import { get } from '../utils'
-import useContextMachine from './useContextMachine'
+import { get } from '../../utils'
+import useContextMachine from '../useContextMachine'
 
-export default function useValue({ context, parse } = {}) {
-  const [state] = useContextMachine() || []
+export default function useValue({ machineId, context, parse } = {}) {
+  const [state] = useContextMachine(machineId) || []
 
   if (!state) return
 

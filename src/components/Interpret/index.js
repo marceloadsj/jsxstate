@@ -1,8 +1,8 @@
 import React, { useRef, useContext } from 'react'
 import { useMachine } from '@xstate/react'
 
-import MachineContext from '../MachineContext'
-import MachineProvider from './MachineProvider'
+import MachineContext from '../../MachineContext'
+import MachineProvider from '../MachineProvider'
 
 export default function Interpret({ machine, options, id, children }) {
   const currentMachine = useMachine(machine, options)
