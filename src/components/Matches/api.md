@@ -1,12 +1,8 @@
 ## `<Matches />`
 
-<br/>
-
 Lorem ipsum
 
 ---
-
-<br/>
 
 | Prop    | Required | Type         | Default    | Description                                                      |
 | ------- | -------- | ------------ | ---------- | ---------------------------------------------------------------- |
@@ -14,13 +10,9 @@ Lorem ipsum
 | options | no       | object       | undefined  | pass options like the second param of @xstate/react useMachine() |
 | id      | no       | string       | machine.id | you can use another id instead of the machine.id                 |
 
-<br/>
-
 The id of the machine, if existent, will be used to generate a unique pointer in the React context to that machine.
 
 If a machine with the same id already exists, the new one will not be injected, not being able to use machineId to target it.
-
-<br/>
 
 ### Examples:
 

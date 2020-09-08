@@ -1,12 +1,8 @@
 ### `<Send />`
 
-<br/>
-
 A component that renders a tag (defaults to div) and enhance some specific props to point to the machine.
 
 ---
-
-<br/>
 
 | Prop            | Required | Type         | Default                          | Description                                                                  |
 | --------------- | -------- | ------------ | -------------------------------- | ---------------------------------------------------------------------------- |
@@ -15,8 +11,6 @@ A component that renders a tag (defaults to div) and enhance some specific props
 | event listeners | no       | eventType    | undefined                        | abstract the creation of the send event direct on those props                |
 | dom attributes  | no       | domAttribute | undefined                        | point to the context of a machine, aka state.context, accepting dot notation |
 
-<br/>
-
 `type eventType = string | object | ((event: SyntheticEvent, state: State, send: Send): string | object | void)`
 
 The event listener props like onClick, onChange, onLoad etc are enhanced events that can handle the same api as the @xstate/react useMachine() second return.
@@ -24,8 +18,6 @@ The event listener props like onClick, onChange, onLoad etc are enhanced events 
 `type domAttribute = string | ((state): any)`
 
 The specific dom attributes, like value, checked, help you creating inputs that point to the machine context directly.
-
-<br/>
 
 ### Examples:
 

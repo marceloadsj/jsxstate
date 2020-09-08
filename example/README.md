@@ -4,15 +4,11 @@
 
 ---
 
-<br/>
-
 ## Playground
 
 [Try it out on the playground - https://marceloadsj.github.io/jsxstate/](https://marceloadsj.github.io/jsxstate/)
 
 ---
-
-<br/>
 
 ## Documentation
 

@@ -1,12 +1,8 @@
 ## `<Value />`
 
-<br/>
-
 Renders the machine finite (state.value) or infinite (state.context) data into the screen.
 
 ---
-
-<br/>
 
 | Prop      | Required | Type      | Default   | Description                                                                                      |
 | --------- | -------- | --------- | --------- | ------------------------------------------------------------------------------------------------ |
@@ -17,12 +13,8 @@ Renders the machine finite (state.value) or infinite (state.context) data into t
 
 `type TParse = (value: any, state: State) => ReactNode`
 
-<br/>
-
 It does not render anything else appart of the raw value it finds inside the machine, being the finite or infinite state.
 If the infinite state, aka context, is an object, it will not be rendered as well.
-
-<br/>
 
 ### Examples:
 

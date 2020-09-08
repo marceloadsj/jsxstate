@@ -1,20 +1,14 @@
 ## `MachineContext`
 
-<br/>
-
 A standard React context instance
 
 ---
-
-<br/>
 
 The React context used on the library works in a way you can access any store of the tree by its level.
 That approach allows us to have control of the closest machine, and the machines above that, so you can just target it in an easy way.
 
 Always remember that the closest machine will be targeted if no _machineId_ is used.
 Check the examples below to understand how it works.
-
-<br/>
 
 ### Examples:
 

@@ -4,13 +4,9 @@
 
 [![NPM](https://img.shields.io/npm/v/jsxstate.svg)](https://www.npmjs.com/package/jsxstate) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Travis](https://travis-ci.com/marceloadsj/jsxstate.svg?branch=master)](https://travis-ci.com/marceloadsj/jsxstate.svg?branch=master)
 
-<br/>
-
 ### _Please, do not use it in Production until the release of the version 1_
 
 ---
-
-<br/>
 
 ## Motivation
 
@@ -19,15 +15,11 @@ Instead of writing imperactive coding, creating functions to trigger events or c
 
 ---
 
-<br/>
-
 ## Playground
 
 [Try it out on the playground - https://marceloadsj.github.io/jsxstate/](https://marceloadsj.github.io/jsxstate/)
 
 ---
-
-<br/>
 
 ## APIs
 
@@ -53,8 +45,6 @@ Those are not exported, but you can read how they works under the hood
 
 ---
 
-<br/>
-
 ## Install
 
 ```bash
@@ -66,8 +56,6 @@ yarn add jsxstate
 **Peer dependencies:** `react xstate @xstate/react`
 
 ---
-
-<br/>
 
 ## Usage
 
@@ -153,8 +141,6 @@ export default function Counter() {
 ```
 
 ---
-
-<br/>
 
 ## License
 
