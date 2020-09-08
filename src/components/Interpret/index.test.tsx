@@ -3,7 +3,7 @@ import { screen } from '@testing-library/react'
 import { Machine } from 'xstate'
 
 import { render } from '../../../testUtils'
-import MachineContext from '../../MachineContext'
+import MachineContext from '../MachineContext'
 import Interpret from '.'
 
 describe('Interpret', () => {

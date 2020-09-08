@@ -25,7 +25,7 @@ But, you can pass an id prop to change the pointer of React context, so you can 
 
 <br/>
 
-[MachineContext](https://github.com/marceloadsj/jsxstate/blob/master/src/MachineContext/api.md) - Check it for more in deep explanation of how the React context works inside the library
+[MachineContext](https://github.com/marceloadsj/jsxstate/blob/master/src/components/MachineContext/api.md) - Check it for more in deep explanation of how the React context works inside the library
 
 ### Examples:
 

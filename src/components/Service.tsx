@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { useService } from '@xstate/react'
 
 import { TService } from '../types'
-import MachineProvider from './MachineProvider'
+import MachineContext from './MachineContext'
 
 type TServiceProps = {
   service: TService
@@ -11,7 +11,7 @@ type TServiceProps = {
 const Service: FC<TServiceProps> = ({ service, ...props }) => {
   const value = useService(service)
 
-  return <MachineProvider {...props} value={value} />
+  return <MachineContext.Provider {...props} value={value} />
 }
 
 export default Service

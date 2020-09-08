@@ -33,10 +33,6 @@ Instead of writing imperactive coding, creating functions to trigger events or c
 
 You can find each API individually below:
 
-### Components:
-
-[MachineContext](https://github.com/marceloadsj/jsxstate/blob/master/src/MachineContext/api.md) - How React context works inside the library
-
 [Interpret](https://github.com/marceloadsj/jsxstate/blob/master/src/components/Interpret/api.md) - How to start a machine and provide it on React context
 
 [Value](https://github.com/marceloadsj/jsxstate/blob/master/src/components/Value/api.md) - How to render the finite or infinite state of a machine
@@ -48,6 +44,12 @@ _WIP ..._
 ### Hooks:
 
 _WIP ..._
+
+### Internals
+
+Those are not exported, but you can read how they works under the hood
+
+[MachineContext](https://github.com/marceloadsj/jsxstate/blob/master/src/MachineContext/api.md) - How React context works inside the library
 
 ---
 

@@ -2,8 +2,7 @@ import React, { FC, useRef, useContext } from 'react'
 import { useMachine } from '@xstate/react'
 import { StateMachine } from 'xstate'
 
-import MachineContext from '../../MachineContext'
-import MachineProvider from '../MachineProvider'
+import MachineContext from '../MachineContext'
 
 // TODO: check if we can make a PR to @xstate/react exposing its types
 type TInterpretProps = {
@@ -38,7 +37,9 @@ const Interpret: FC<TInterpretProps> = ({ machine, options, id, children }) => {
     }
   }
 
-  return <MachineProvider value={value}>{children}</MachineProvider>
+  return (
+    <MachineContext.Provider value={value}>{children}</MachineContext.Provider>
+  )
 }
 
 export default Interpret
