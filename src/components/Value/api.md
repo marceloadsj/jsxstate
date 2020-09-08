@@ -2,51 +2,111 @@
 
 <br/>
 
-A component to render the machine state (state.value) or context (state.context) into the screen.
+Renders the machine finite (state.value) or infinite (state.context) data into the screen.
 
 ---
 
 <br/>
 
-| Prop      | Required | Type                      | Default                          | Description                                                 |
-| --------- | -------- | ------------------------- | -------------------------------- | ----------------------------------------------------------- |
-| context   | no       | string                    | undefined                        | search on the context of the machine with dot notation      |
-| parse     | no       | (value, state): ReactNode | undefined                        | parse the value and return what will be rendered            |
-| fallback  | no       | ReactNode                 | undefined                        | render the fallback value if no value (undefined) was found |
-| machineId | no       | string                    | closest machine on React context | read from another machine on the react tree                 |
+| Prop      | Required | Type      | Default   | Description                                                                                      |
+| --------- | -------- | --------- | --------- | ------------------------------------------------------------------------------------------------ |
+| machineId | no       | string    |           | targets the machine by the id it was registered on Interpret                                     |
+| context   | no       | string    | undefined | retrieves on the context of the machine with [dot notation](https://lodash.com/docs/4.17.15#get) |
+| parse     | no       | TParse    | undefined | parses the value and return what will be rendered                                                |
+| fallback  | no       | ReactNode | undefined | renders the fallback value if none (undefined) was found                                         |
+
+`type TParse = (value: any, state: State) => ReactNode`
 
 <br/>
 
-It do not render anything else appart of that, just a raw content of the machine.
-
-Remember that it should be inside an Interpret to work.
+It does not render anything else appart of the raw value it finds inside the machine, being the finite or infinite state.
+If the infinite state, aka context, is an object, it will not be rendered as well.
 
 <br/>
 
 ### Examples:
 
 ```jsx
+const userMachine = Machine({ id: 'user' /* ... */ })
+
+// It will render the state.value. If it is an object, it will render the string version of it (like "red.walk")
 function Component() {
   return (
-    <div>
-      <!-- Render the state.value. If it is an object, it will render the string version of it (like "red.walk") -->
+    <Interpret machine={userMachine}>
       <Value />
+    </Interpret>
+  )
+}
+```
 
-      <!-- Render the state.context.messages.error. -->
-      <Value context="messages.error" />
+```jsx
+const userMachine = Machine({ id: 'user' /* ... */ })
 
-      <-- You can read from arrays as well, example of a state.context like { messages: [{ error: "Error Message" }] } -->
-      <Value context="messages[0].error" />
+// It will render the state.context.messages.error
+function Component() {
+  return (
+    <Interpret machine={userMachine}>
+      <Value context='messages.error' />
+    </Interpret>
+  )
+}
+```
 
-      <!-- You receive the state.context.count and the entire state -->
-      <Value context="count" parse={(count, state) => count * 2} />
+```jsx
+const userMachine = Machine({
+  id: 'user',
+  context: {
+    messages: [{ error: 'Error Message' }]
+  }
+  /* ... */
+})
 
-      <!-- Render the fallback when context key was not found -->
-      <Value context="not.found" fallback="I will be rendered" />
+// You can read from arrays as well using the following notation
+function Component() {
+  return (
+    <Interpret machine={userMachine}>
+      <Value context='messages[0].error' />
+    </Interpret>
+  )
+}
+```
 
-      <!-- Select another machine from the same React tree as the target -->
-      <Value machineId="user" />
-    </div>
-  );
+```jsx
+const counterMachine = Machine({ id: 'counter' /* ... */ })
+
+// You receive the searched value and the entire state as args of parse
+function Component() {
+  return (
+    <Interpret machine={counterMachine}>
+      <Value context='count' parse={(count, state) => count * 2} />
+    </Interpret>
+  )
+}
+```
+
+```jsx
+// To render a fallback if no value is found (undefined), use the fallback prop
+function Component() {
+  return (
+    <Interpret machine={userMachine}>
+      <Value context='wrong.key' fallback='I will be rendered' />
+    </Interpret>
+  )
+}
+```
+
+```jsx
+const userMachine = Machine({ id: 'user' /* ... */ })
+const counterMachine = Machine({ id: 'counter' /* ... */ })
+
+// To target another machine on the same React context, use the machineId prop
+function Component() {
+  return (
+    <Interpret machine={userMachine}>
+      <Interpret machine={counterMachine}>
+        <Value machineId='user' />
+      </Interpret>
+    </Interpret>
+  )
 }
 ```
