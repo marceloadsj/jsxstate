@@ -8,18 +8,18 @@ Starts a XState machine and injects it into a React context to provide it to oth
 
 <br/>
 
-| Prop    | Required | Type         | Default     | Description                                                        |
-| ------- | -------- | ------------ | ----------- | ------------------------------------------------------------------ |
-| machine | yes      | StateMachine | -           | starts the provided machine and inject it into the context         |
-| options | no       | object       | _undefined_ | pass options like the second param of _@xstate/react useMachine()_ |
-| id      | no       | string       | machine.id  | uses it instead of the machine.id only for the React context       |
+| Prop    | Required | Type         | Default    | Description                                                        |
+| ------- | -------- | ------------ | ---------- | ------------------------------------------------------------------ |
+| machine | yes      | StateMachine | -          | starts the provided machine and inject it into the context         |
+| options | no       | object       | undefined  | adds options like the second param of _@xstate/react useMachine()_ |
+| id      | no       | string       | machine.id | uses it instead of the _machine.id_ only for the React context     |
 
 <br/>
 
-Behind the scenes, Interpret uses the _@xstate/react useMachine()_ function to starts the machine.
+Behind the scenes, _Interpret_ uses the _@xstate/react useMachine()_ function to starts the machine.
 So, if you have questions about the props, just check the [_@xstate/react_ docs](https://xstate.js.org/docs/packages/xstate-react/#quick-start).
 
-The machine.id, if existent, will be used to generate a unique pointer to that machine in the current React context.
+The _machine.id_, if existent, will be used to generate a unique pointer to that machine in the current React context.
 If a machine with the same id already exists in the current React tree branch, the new one will not be injected and a warn on console will trigger.
 But, you can pass an id prop to change the pointer of React context, so you can target it using _machineId_ prop of other components.
 
@@ -30,17 +30,10 @@ But, you can pass an id prop to change the pointer of React context, so you can 
 ### Examples:
 
 ```jsx
-const userMachine = Machine({
-  id: 'user'
-  // ...
-})
+const userMachine = Machine({ id: 'user' /* ... */ })
+const counterMachine = Machine({ id: 'counter' /* ... */ })
 
-const counterMachine = Machine({
-  id: 'counter'
-  // ...
-})
-
-// It will send INC event to the closes machine. In that case, counterMachine.
+// It will send INC event to the closest machine, aka, counterMachine
 function Component() {
   return (
     <Interpret machine={userMachine}>
@@ -53,15 +46,8 @@ function Component() {
 ```
 
 ```jsx
-const userMachine = Machine({
-  id: 'user'
-  // ...
-})
-
-const counterMachine = Machine({
-  id: 'counter'
-  // ...
-})
+const userMachine = Machine({ id: 'user' /* ... */ })
+const counterMachine = Machine({ id: 'counter' /* ... */ })
 
 // It will send LOGIN event to the userMachine targeting it by its id
 function Component() {
@@ -78,10 +64,7 @@ function Component() {
 ```
 
 ```jsx
-const userMachine = Machine({
-  id: 'user'
-  // ...
-})
+const userMachine = Machine({ id: 'user' /* ... */ })
 
 // To be able to target different instances of the same machine, you can pass an id to Interpret
 function Component() {
