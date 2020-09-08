@@ -1,7 +1,7 @@
 export default `/*
 Components available: Interpret, Send, Value, Matches
 Hooks available: useContextMachine, useValue, useMatches
-CSS classes available: default utility tailwind css
+CSS classes available: tailwind css classes https://tailwindcss.com/
 */
 
 const machine = Machine({
@@ -11,14 +11,14 @@ const machine = Machine({
     steps: 10,
   },
   states: {
-    green: {
-      after: { 2000: "yellow" },
+    red: {
+      after: { 3000: "yellow" },
     },
     yellow: {
-      after: { 1000: "red" },
+      after: { 1000: "green" },
     },
-    red: {
-      after: { 3000: "green" },
+    green: {
+      after: { 2000: "red" },
     },
     stopped: {
       on: {
