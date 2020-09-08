@@ -23,7 +23,6 @@
     "autoprefixer": "^9.8.6",
     "classnames": "^2.2.6",
     "customize-cra": "^1.0.0",
-    "eslint-config-react-app": "^5.2.1",
     "jsxstate": "link:..",
     "prism-react-renderer": "^1.1.1",
     "react": "link:../node_modules/react",
