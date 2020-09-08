@@ -2,47 +2,101 @@
 
 <br/>
 
-The component that starts a machine and inject it to React context.
+Starts a XState machine and injects it into a React context to provide it to other components.
 
 ---
 
 <br/>
 
-| Prop    | Required | Type         | Default    | Description                                                    |
-| ------- | -------- | ------------ | ---------- | -------------------------------------------------------------- |
-| machine | yes      | StateMachine |            | start the provided machine and inject into the context         |
-| options | no       | object       | undefined  | pass options like the second param of @xstate/react useState() |
-| id      | no       | string       | machine.id | you can use another id instead of the machine.id               |
+| Prop    | Required | Type         | Default     | Description                                                        |
+| ------- | -------- | ------------ | ----------- | ------------------------------------------------------------------ |
+| machine | yes      | StateMachine | -           | starts the provided machine and inject it into the context         |
+| options | no       | object       | _undefined_ | pass options like the second param of _@xstate/react useMachine()_ |
+| id      | no       | string       | machine.id  | uses it instead of the machine.id only for the React context       |
 
 <br/>
 
-The id of the machine, if existent, will be used to generate a unique pointer in the React context to that machine.
+Behind the scenes, Interpret uses the _@xstate/react useMachine()_ function to starts the machine.
+So, if you have questions about the props, just check the [_@xstate/react_ docs](https://xstate.js.org/docs/packages/xstate-react/#quick-start).
 
-If a machine with the same id already exists, the new one will not be injected, not being able to use machineId to target it.
+The machine.id, if existent, will be used to generate a unique pointer to that machine in the current React context.
+If a machine with the same id already exists in the current React tree branch, the new one will not be injected and a warn on console will trigger.
+But, you can pass an id prop to change the pointer of React context, so you can target it using _machineId_ prop of other components.
 
 <br/>
+
+[MachineContext](https://github.com/marceloadsj/jsxstate/blob/master/src/MachineContext/api.md) - Check it for more in deep explanation of how the React context works inside the library
 
 ### Examples:
 
 ```jsx
+const userMachine = Machine({
+  id: 'user'
+  // ...
+})
+
+const counterMachine = Machine({
+  id: 'counter'
+  // ...
+})
+
+// It will send INC event to the closes machine. In that case, counterMachine.
 function Component() {
   return (
     <Interpret machine={userMachine}>
       <Interpret machine={counterMachine}>
-        <!-- It will send INC event to the closes machine, counterMachine -->
         <Send onClick='INC'>Increment</Send>
-
-        <!-- It will send LOGIN event to the userMachine (as it have "user" as id) -->
-        <Send onClick='LOGIN' machineId='user'>
-          Increment
-        </Send>
-      </Interpret>
-
-      <!-- When we need to render the same machine on the same tree. To be able to target it using machineId, we need to pass a different id to Interpret -->
-      <Interpret machine={userMachine} id='friend'>
-        <!-- ... -->
       </Interpret>
     </Interpret>
-  );
+  )
+}
+```
+
+```jsx
+const userMachine = Machine({
+  id: 'user'
+  // ...
+})
+
+const counterMachine = Machine({
+  id: 'counter'
+  // ...
+})
+
+// It will send LOGIN event to the userMachine targeting it by its id
+function Component() {
+  return (
+    <Interpret machine={userMachine}>
+      <Interpret machine={counterMachine}>
+        <Send onClick='LOGIN' machineId='user'>
+          Login
+        </Send>
+      </Interpret>
+    </Interpret>
+  )
+}
+```
+
+```jsx
+const userMachine = Machine({
+  id: 'user'
+  // ...
+})
+
+// To be able to target different instances of the same machine, you can pass an id to Interpret
+function Component() {
+  return (
+    <Interpret machine={userMachine}>
+      <Interpret machine={userMachine} id='friend'>
+        <Send onClick='LOGIN' machineId='user'>
+          Login
+        </Send>
+
+        <Send onClick='FOLLOW' machineId='friend'>
+          Follow
+        </Send>
+      </Interpret>
+    </Interpret>
+  )
 }
 ```

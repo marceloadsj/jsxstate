@@ -14,7 +14,8 @@
 
 ## Motivation
 
-The main idea of that package is to provide an easy way to write React UIs based on XState machines using components only (or mainly).
+The main idea of the library is to provide an easy way to write React UIs based on XState machines using components only (or mainly).
+Instead of writing imperactive coding, creating functions to trigger events or creating complex hooks, you can focus in writing components that communicate with your machine, render desired data when a machine state matches and stuffs like that.
 
 ---
 
@@ -26,11 +27,13 @@ You can find each API individually below:
 
 ### Components:
 
-[Interpret](https://github.com/marceloadsj/jsxstate/blob/master/src/components/Interpret/api.md)
+[MachineContext](https://github.com/marceloadsj/jsxstate/blob/master/src/MachineContext/api.md) - How React context works inside the library
 
-[Value](https://github.com/marceloadsj/jsxstate/blob/master/src/components/Value/api.md)
+[Interpret](https://github.com/marceloadsj/jsxstate/blob/master/src/components/Interpret/api.md) - How to start a machine and provide it on React context
 
-[Send](https://github.com/marceloadsj/jsxstate/blob/master/src/components/Send/api.md)
+[Value](https://github.com/marceloadsj/jsxstate/blob/master/src/components/Value/api.md) - How to render the finite or infinite state of a machine
+
+[Send](https://github.com/marceloadsj/jsxstate/blob/master/src/components/Send/api.md) - How to trigger events on a machine
 
 _WIP ..._
 

@@ -1,5 +1,9 @@
-This example was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# jsxstate
 
-It is linked to the jsxstate package in the parent directory for development purposes.
+> Declarative UIs for declarative XState machines
 
-You can run `yarn install` and then `yarn start` to test your package.
+<br/>
+
+### Playground
+
+_WIP..._

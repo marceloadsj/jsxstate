@@ -1,13 +1,21 @@
-import React, { useRef, useContext } from 'react'
+import React, { FC, useRef, useContext } from 'react'
 import { useMachine } from '@xstate/react'
+import { StateMachine } from 'xstate'
 
 import MachineContext from '../../MachineContext'
 import MachineProvider from '../MachineProvider'
 
-export default function Interpret({ machine, options, id, children }) {
+// TODO: check if we can make a PR to @xstate/react exposing its types
+type TInterpretProps = {
+  machine: StateMachine<any, any, any, any>
+  options?: any
+  id?: string
+}
+
+const Interpret: FC<TInterpretProps> = ({ machine, options, id, children }) => {
   const currentMachine = useMachine(machine, options)
 
-  const machineRef = useRef()
+  const machineRef = useRef(currentMachine)
   machineRef.current = currentMachine
 
   let value = { ref: machineRef }
@@ -21,7 +29,7 @@ export default function Interpret({ machine, options, id, children }) {
   const parsedId = id || machine.id
 
   if (parsedId) {
-    if (value[parsedId]) {
+    if (process.env.NODE_ENV === 'development' && value[parsedId]) {
       console.warn(
         `Machine with id '${parsedId}' already exists in this context, it will not be overwritten`
       )
@@ -32,3 +40,5 @@ export default function Interpret({ machine, options, id, children }) {
 
   return <MachineProvider value={value}>{children}</MachineProvider>
 }
+
+export default Interpret
