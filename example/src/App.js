@@ -16,9 +16,13 @@ export default function App() {
             js<span className='font-bold'>xstate</span>
           </h1>
 
-          <div className='px-1 py-px text-xs text-gray-500 bg-gray-900 rounded'>
-            v1.0.0
-          </div>
+          <a
+            href='https://www.npmjs.com/package/jsxstate'
+            rel='noopener noreferrer'
+            target='_blank'
+          >
+            <img src='https://img.shields.io/npm/v/jsxstate.svg' alt='npm' />
+          </a>
         </div>
 
         <div className='flex items-center space-x-5'>

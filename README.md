@@ -2,7 +2,7 @@
 
 > Declarative UIs for declarative XState machines
 
-[![NPM](https://img.shields.io/npm/v/jsxstate.svg)](https://www.npmjs.com/package/jsxstate) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/jsxstate.svg)](https://www.npmjs.com/package/jsxstate) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Travis](https://travis-ci.com/marceloadsj/jsxstate.svg?branch=master)](https://travis-ci.com/marceloadsj/jsxstate.svg?branch=master)
 
 <br/>
 
