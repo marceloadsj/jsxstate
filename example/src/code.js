@@ -34,8 +34,7 @@ const machine = Machine({
 function Light({ color, active }) {
   const className = classnames(
     "w-20 h-20 rounded-full flex items-center justify-center",
-    active && "bg-" + color + "-400",
-    !active && "bg-" + color + "-900"
+    color,
   );
 
   return <div className={className}>{active && <Value />}</div>;
@@ -46,16 +45,16 @@ function Component() {
     <Interpret machine={machine}>
       <div className="flex items-center space-x-10">
         <div className="inline-block p-5 space-y-10 bg-gray-800 rounded">
-          <Matches value="red" fallback={<Light color="red" />}>
-            <Light color="red" active />
+          <Matches value="red" fallback={<Light color="bg-red-800" />}>
+            <Light color="bg-red-500" active />
           </Matches>
 
-          <Matches value="yellow" fallback={<Light color="yellow" />}>
-            <Light color="yellow" active />
+          <Matches value="yellow" fallback={<Light color="bg-yellow-800" />}>
+            <Light color="bg-yellow-500" active />
           </Matches>
 
-          <Matches value="green" fallback={<Light color="green" />}>
-            <Light color="green" active />
+          <Matches value="green" fallback={<Light color="bg-green-800" />}>
+            <Light color="bg-green-500" active />
           </Matches>
         </div>
 
