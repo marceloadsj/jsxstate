@@ -21,6 +21,14 @@ Instead of writing imperactive coding, creating functions to trigger events or c
 
 <br/>
 
+## Playground
+
+[Try it out on the playground - https://marceloadsj.github.io/jsxstate/](https://marceloadsj.github.io/jsxstate/)
+
+---
+
+<br/>
+
 ## APIs
 
 You can find each API individually below:
@@ -49,10 +57,11 @@ _WIP ..._
 
 ```bash
 npm install jsxstate --save
-
 # or
 yarn add jsxstate
 ```
+
+**Peer dependencies:** `react xstate @xstate/react`
 
 ---
 
