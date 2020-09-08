@@ -19,50 +19,137 @@ Check the examples below to understand how it works.
 ### Examples:
 
 ```jsx
-const userMachine = Machine({
-  id: 'user'
-  // ...
-})
-
-const counterMachine = Machine({
-  id: 'counter'
-  // ...
-})
+const userMachine = Machine({ id: 'user', /* ... */ })
+const counterMachine = Machine({ id: 'counter', /* ... */ })
 
 function Component() {
   return (
     <Interpret machine={userMachine}>
       <Interpret machine={counterMachine}>
-        <!-- Here, you will have access to userMachine and counterMachine, because you are inside the three of both -->
+        <!-- Here, you will have access to userMachine and counterMachine -->
+      </Interpret>
+    </Interpret>
+  )
+}
+```
 
-        <!-- The closest machine is the counterMachine -->
-        <!-- The Value component will show the state of the counterMachine -->
+```jsx
+const userMachine = Machine({ id: 'user', /* ... */ })
+const counterMachine = Machine({ id: 'counter', /* ... */ })
+
+function Component() {
+  return (
+    <Interpret machine={userMachine}>
+      <Interpret machine={counterMachine}>
+        <!-- The closest machine is the counterMachine, so the value will target it -->
         <p>
           Counter Machine State: <Value />
         </p>
+      </Interpret>
+    </Interpret>
+  )
+}
+```
 
+```jsx
+const userMachine = Machine({ id: 'user', /* ... */ })
+const counterMachine = Machine({ id: 'counter', /* ... */ })
+
+function Component() {
+  return (
+    <Interpret machine={userMachine}>
+      <Interpret machine={counterMachine}>
         <!-- But you can pass a machineId to target another machine on the same tree -->
         <p>
           User Machine State: <Value machineId='user' />
         </p>
       </Interpret>
+    </Interpret>
+  )
+}
+```
 
-      <!-- Now, here, you just have access to userMachine -->
+```jsx
+function Component() {
+  return (
+    <Interpret machine={userMachine}>
+      <Interpret machine={counterMachine}>
+        <!-- ... -->
+      </Interpret>
+
+      <!-- Here, you just have access to userMachine -->
       <p>
         User Machine State: <Value />
       </p>
+    </Interpret>
+  )
+}
+```
 
-      <!-- And if you want to use the an equal machine on the same tree, you can add another id -->
+```jsx
+function Component() {
+  return (
+    <Interpret machine={userMachine}>
+      <Interpret machine={counterMachine}>
+        <!-- ... -->
+      </Interpret>
+
+      <!-- If you want to use an equal machine on the same tree and target it with machineId, you can pass another id -->
+      <Interpret machine={userMachine} id='friend'>
+        <!-- ... -->
+      </Interpret>
+    </Interpret>
+  )
+}
+```
+
+```jsx
+function Component() {
+  return (
+    <Interpret machine={userMachine}>
+      <Interpret machine={counterMachine}>
+        <!-- ... -->
+      </Interpret>
+
       <Interpret machine={userMachine} id='friend'>
         <Interpret machine={counterMachine}>
-          <!-- Then you can target both machines differently -->
+          <!-- Then you can target both machines differently by their id -->
           <p>
             User Machine State: <Value machineId='user' />
           </p>
+        </Interpret>
+      </Interpret>
+    </Interpret>
+  )
+}
+```
 
-          <!-- The machine.id will not be changed, only the pointer to it inside the React context -->
+```jsx
+function Component() {
+  return (
+    <Interpret machine={userMachine}>
+      <Interpret machine={userMachine} id='friend'>
+        <Interpret machine={counterMachine}>
+          <!-- The machine.id will not be changed, only the pointer to that instance inside the React context -->
           <p>
             (Friend) User Machine State: <Value machineId='friend' />
+          </p>
+        </Interpret>
+      </Interpret>
+    </Interpret>
+  )
+}
+```
+
+```jsx
+function Component() {
+  return (
+    <Interpret machine={userMachine}>
+      <Interpret machine={userMachine} id='friend'>
+        <Interpret machine={counterMachine}>
+          <!-- Remember, without machineId it will target the closest one -->
+          <p>
+            Counter Machine State: <Value />
           </p>
         </Interpret>
       </Interpret>
