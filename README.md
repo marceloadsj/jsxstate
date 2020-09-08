@@ -49,7 +49,7 @@ _WIP ..._
 
 Those are not exported, but you can read how they works under the hood
 
-[MachineContext](https://github.com/marceloadsj/jsxstate/blob/master/src/MachineContext/api.md) - How React context works inside the library
+[MachineContext](https://github.com/marceloadsj/jsxstate/blob/master/src/components/MachineContext/api.md) - How React context works inside the library
 
 ---
 
