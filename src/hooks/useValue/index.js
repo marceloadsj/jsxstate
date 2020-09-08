@@ -1,12 +1,7 @@
 import { get } from '../../utils'
 import useContextMachine from '../useContextMachine'
 
-export default function useValue({
-  machineId,
-  context,
-  parse,
-  defaultValue
-} = {}) {
+export default function useValue({ machineId, context, parse, fallback } = {}) {
   const [state] = useContextMachine(machineId) || []
 
   if (!state) return
@@ -15,7 +10,7 @@ export default function useValue({
 
   if (context) {
     if (typeof context === 'string') {
-      value = get(state.context, context, defaultValue)
+      value = get(state.context, context, fallback)
     } else {
       value = state.context
     }
