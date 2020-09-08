@@ -20,11 +20,9 @@ describe('Interpret', () => {
       }
     })
 
-    const text = 'Test Message'
+    render(<Interpret machine={testMachine}>Test Message</Interpret>)
 
-    render(<Interpret machine={testMachine}>{text}</Interpret>)
-
-    expect(screen.getByText(text)).toBeInTheDocument()
+    expect(screen.getByText('Test Message')).toBeInTheDocument()
   })
 
   test('provides the machine', () => {
@@ -93,10 +91,8 @@ describe('Interpret', () => {
   })
 
   test('provides the machine under its id', () => {
-    const id = 'test'
-
     const testMachine = Machine({
-      id,
+      id: 'test',
       initial: 'idle',
       states: {
         idle: {}
@@ -109,7 +105,7 @@ describe('Interpret', () => {
       const allMachines = useContext(MachineContext)
 
       if (allMachines) {
-        contextMachine = allMachines[id]
+        contextMachine = allMachines.test
       }
 
       return null
@@ -125,10 +121,8 @@ describe('Interpret', () => {
   })
 
   test('provides the machine by id as the same of the closes machine', () => {
-    const id = 'test'
-
     const testMachine = Machine({
-      id,
+      id: 'test',
       initial: 'idle',
       states: {
         idle: {}
@@ -153,7 +147,7 @@ describe('Interpret', () => {
       </Interpret>
     )
 
-    expect(contextMachine.ref === contextMachine[id]).toBe(true)
+    expect(contextMachine.ref === contextMachine.test).toBe(true)
   })
 
   test('provides a machine without id', () => {
@@ -194,21 +188,20 @@ describe('Interpret', () => {
       }
     })
 
-    const id = 'another'
     let contextMachine
 
     function Children() {
       const allMachines = useContext(MachineContext)
 
       if (allMachines) {
-        contextMachine = allMachines[id]
+        contextMachine = allMachines.another
       }
 
       return null
     }
 
     render(
-      <Interpret machine={testMachine} id={id}>
+      <Interpret machine={testMachine} id='another'>
         <Children />
       </Interpret>
     )
