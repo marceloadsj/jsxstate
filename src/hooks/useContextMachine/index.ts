@@ -1,8 +1,8 @@
 import { useContext } from 'react'
 
-import MachineContext from '../../components/MachineContext'
+import MachineContext, { Ctx } from '../../components/MachineContext'
 
-export default function useContextMachine(id) {
+export default function useContextMachine(id: string): Ctx | undefined {
   const allMachines = useContext(MachineContext)
 
   if (!allMachines) return
@@ -10,4 +10,6 @@ export default function useContextMachine(id) {
   if (!id) return allMachines.ref.current
 
   if (allMachines[id]) return allMachines[id].current
+
+  return undefined
 }
