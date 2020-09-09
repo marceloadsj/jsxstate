@@ -1,6 +1,6 @@
 ## `MachineContext`
 
-A standard React context instance
+Standard React context instance created with _React.createContext_.
 
 ---
 

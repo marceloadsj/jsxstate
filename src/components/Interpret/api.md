@@ -6,7 +6,7 @@ Starts a XState machine and injects it into a React context to provide it to oth
 
 | Prop    | Required | Type         | Default    | Description                                                        |
 | ------- | -------- | ------------ | ---------- | ------------------------------------------------------------------ |
-| machine | yes      | StateMachine | -          | starts the provided machine and inject it into the context         |
+| machine | yes      | StateMachine |            | starts the provided machine and inject it into the context         |
 | options | no       | object       | undefined  | adds options like the second param of _@xstate/react useMachine()_ |
 | id      | no       | string       | machine.id | uses it instead of the _machine.id_ only for the React context     |
 
@@ -15,7 +15,7 @@ So, if you have questions about the props, just check the [_@xstate/react_ docs]
 
 The _machine.id_, if existent, will be used to generate a unique pointer to that machine in the current React context.
 If a machine with the same id already exists in the current React tree branch, the new one will not be injected and a warn on console will trigger.
-But, you can pass an id prop to change the pointer of React context, so you can target it using _machineId_ prop of other components.
+But, you can pass an _id_ prop to change the pointer of React context, so you can target it using _machineId_ prop of other components.
 
 [MachineContext](https://github.com/marceloadsj/jsxstate/blob/master/src/components/MachineContext/api.md) - Check it for more in deep explanation of how the React context works inside the library
 

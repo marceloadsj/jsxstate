@@ -6,7 +6,7 @@ Renders the machine finite (state.value) or infinite (state.context) data into t
 
 | Prop      | Required | Type      | Default   | Description                                                                                      |
 | --------- | -------- | --------- | --------- | ------------------------------------------------------------------------------------------------ |
-| machineId | no       | string    |           | targets the machine by the id it was registered on Interpret                                     |
+| machineId | no       | string    | undefined | targets the machine by the id it was registered on Interpret                                     |
 | context   | no       | string    | undefined | retrieves on the context of the machine with [dot notation](https://lodash.com/docs/4.17.15#get) |
 | parse     | no       | TParse    | undefined | parses the value and return what will be rendered                                                |
 | fallback  | no       | ReactNode | undefined | renders the fallback value if none (undefined) was found                                         |
