@@ -1,17 +1,20 @@
 import { useContext } from 'react'
 
-import MachineContext, { Ctx } from '../../components/MachineContext'
+import { TUseMachineReturn } from '../../types'
+import MachineContext from '../../components/MachineContext'
 
-export default function useContextMachine(
-  id: string | undefined
-): Ctx | undefined {
+type TUseContextMachine = (id?: string) => TUseMachineReturn | undefined
+
+const useContextMachine: TUseContextMachine = (id) => {
   const allMachines = useContext(MachineContext)
 
-  if (!allMachines) return
+  if (allMachines) {
+    if (!id) return allMachines.ref.current
 
-  if (!id) return allMachines.ref.current
-
-  if (allMachines[id]) return allMachines[id].current
+    if (allMachines[id]) return allMachines[id].current
+  }
 
   return undefined
 }
+
+export default useContextMachine

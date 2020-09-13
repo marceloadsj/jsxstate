@@ -1,11 +1,12 @@
 import { FC, ReactNode } from 'react'
 
+import { TState } from '../../types'
 import useValue from '../../hooks/useValue'
 
 type TValueProps = {
   machineId?: string
   context?: string
-  parse?: (value: any) => ReactNode
+  parse?: (value: any, state: TState) => ReactNode
   fallback?: ReactNode
 }
 
