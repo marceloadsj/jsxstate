@@ -97,7 +97,6 @@ const counterMachine = Machine({
   context: {
     incremementAmount: 1
   }
-
   /* ... */
 })
 

@@ -21,7 +21,7 @@ If the infinite state, aka context, is an object, it will not be rendered as wel
 ### Examples:
 
 ```jsx
-const userMachine = Machine({ id: 'user' /* ... */ })
+const userMachine = Machine(/* ... */)
 
 // It will render the state.value. If it is an object, it will render the string version of it (like "red.walk")
 function Component() {
@@ -34,7 +34,7 @@ function Component() {
 ```
 
 ```jsx
-const userMachine = Machine({ id: 'user' /* ... */ })
+const userMachine = Machine(/* ... */)
 
 // It will render the state.context.messages.error
 function Component() {
@@ -48,7 +48,6 @@ function Component() {
 
 ```jsx
 const userMachine = Machine({
-  id: 'user',
   context: {
     messages: [{ error: 'Error Message' }]
   }
@@ -66,7 +65,7 @@ function Component() {
 ```
 
 ```jsx
-const counterMachine = Machine({ id: 'counter' /* ... */ })
+const counterMachine = Machine(/* ... */)
 
 // You receive the searched value and the entire state as args of parse
 function Component() {
