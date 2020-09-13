@@ -1,13 +1,19 @@
-import React, { forwardRef } from 'react'
+import React, { ForwardRefRenderFunction, forwardRef } from 'react'
 
 import { getEventListener, getAttributeValue } from '../../utils'
 import { reactEvents, reactAttributes } from '../../constants'
 import useContextMachine from '../../hooks/useContextMachine'
 
-function Send({ as = 'div', machineId, ...props }, ref) {
-  const context = useContextMachine(machineId)
+type TSendProps = {
+  as: any
+  machineId?: string
+}
 
-  const As = as
+const Send: ForwardRefRenderFunction<any, TSendProps> = (
+  { as: As = 'button', machineId, ...props },
+  ref
+) => {
+  const context = useContextMachine(machineId)
 
   if (!context) return <As {...props} ref={ref} />
 
