@@ -11,7 +11,9 @@ Renders the machine finite (state.value) or infinite (state.context) data into t
 | parse     | no       | TParse    | parses the value and return what will be rendered                                                |
 | fallback  | no       | ReactNode | renders the fallback value if none (undefined) was found                                         |
 
-`type TParse = (value: any, state: State) => ReactNode`
+```typescript
+type TParse = (value: any, state: TState) => ReactNode
+```
 
 It does not render anything else appart of the raw value it finds inside the machine, being the finite or infinite state.
 If the infinite state, aka context, is an object, it will not be rendered as well.

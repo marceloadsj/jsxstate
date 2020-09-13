@@ -12,7 +12,9 @@ Validates machine finite (state.value) or infinite (state.context) state and ren
 | fallback  | no       | ReactNode | renders the fallback value if the comparison returns false                                    |
 | not       | no       | boolean   | reverses the final comparison to define if the children will be rendered                      |
 
-`type TValue = any || (value: any, state: State) => ReactNode`
+```typescript
+type TValue = string | ((value: any, state: TState) => boolean)
+```
 
 The default comparison will use triple equal (===) to check between the finite or infinite state and the _value_ provided as a prop.
 If the result is true, the children of the component will be rendered, otherwise, the _fallback_ prop. If fallback does not exists, nothing will be rendered.

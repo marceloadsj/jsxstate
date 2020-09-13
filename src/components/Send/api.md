@@ -8,12 +8,21 @@ Renders a tag, as button being the default one, enhancing specific props to trig
 | --------------- | -------- | ------------ | ------- | ------------------------------------------------------------------------------------------------------- |
 | machineId       | no       | string       |         | targets the machine by the id it was registered on Interpret                                            |
 | as              | no       | ReactElement | button  | renders the specific tag, can be even another React component                                           |
-| event listeners | no       | eventType    |         | abstracts the creation of the send event direct on those props                                          |
-| dom attributes  | no       | domAttribute |         | points a prop to the context of a machine accepting [dot notation](https://lodash.com/docs/4.17.15#get) |
+| event listeners | no       | TType        |         | abstracts the creation of the send event direct on those props                                          |
+| dom attributes  | no       | TValue       |         | points a prop to the context of a machine accepting [dot notation](https://lodash.com/docs/4.17.15#get) |
 
-`type eventType = string | object | ((event: SyntheticEvent, state: State, send: Send): string | object | void)`
+```typescript
+type TType =
+  | string
+  | { [key: string]: any }
+  | ((
+      event: SyntheticEvent,
+      state: TState,
+      send: TSend
+    ) => void | string | { [key: string]: any })
 
-`type domAttribute = string | ((state): any)`
+type TValue = string | ((state: TState) => any)
+```
 
 **Events:** onClick, onChange, onKeyDown, onSubmit, onMouseDown...
 **Attributes:** value, checked...
