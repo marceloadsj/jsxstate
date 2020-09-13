@@ -142,6 +142,23 @@ export default function Counter() {
 
 ---
 
+## Roadmap
+
+Version 1
+
+- [x] Simple playground with editor and real time result
+- [x] Basic components (Interpret, Value, Send, Matches)
+- [x] Tests for all components
+- [x] Documentation for all components
+- [x] Targeting machines by configurable id/machine id on components
+- [ ] Basic hooks (useContextMachine, useValue, useSend, useMatches)
+- [ ] Tests for all and hooks
+- [ ] Documentation for all hooks
+- [ ] Targeting machines by configurable id/machine id on hooks
+- [ ] Everything written in Typescript
+
+---
+
 ## License
 
 MIT © [marceloadsj](https://github.com/marceloadsj)
