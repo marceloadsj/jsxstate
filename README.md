@@ -29,11 +29,9 @@ You can find each API individually below:
 
 [Value](https://github.com/marceloadsj/jsxstate/blob/master/src/components/Value/api.md) - How to render the finite or infinite state of a machine
 
-[Matches](https://github.com/marceloadsj/jsxstate/blob/master/src/components/Matches/api.md) - How to render components based on a finite or infinite state
-
 [Send](https://github.com/marceloadsj/jsxstate/blob/master/src/components/Send/api.md) - How to trigger events on a machine
 
-_WIP ..._
+[Matches](https://github.com/marceloadsj/jsxstate/blob/master/src/components/Matches/api.md) - How to render components based on a finite or infinite state
 
 ### Hooks:
 

@@ -4,13 +4,13 @@ Validates machine finite (state.value) or infinite (state.context) state and ren
 
 ---
 
-| Prop      | Required | Type      | Default   | Description                                                                                   |
-| --------- | -------- | --------- | --------- | --------------------------------------------------------------------------------------------- |
-| machineId | no       | string    | undefined | targets the machine by the id it was registered on Interpret                                  |
-| value     | no       | TValue    | undefined | compares the value prop against the state or the context of the machine                       |
-| context   | no       | string    | undefined | points to the context of the machine with [dot notation](https://lodash.com/docs/4.17.15#get) |
-| fallback  | no       | ReactNode | undefined | renders the fallback value if the comparison returns false                                    |
-| not       | no       | boolean   | undefined | reverses the final comparison to define if the children will be rendered                      |
+| Prop      | Required | Type      | Description                                                                                   |
+| --------- | -------- | --------- | --------------------------------------------------------------------------------------------- |
+| machineId | no       | string    | targets the machine by the id it was registered on Interpret                                  |
+| value     | no       | TValue    | compares the value prop against the state or the context of the machine                       |
+| context   | no       | string    | points to the context of the machine with [dot notation](https://lodash.com/docs/4.17.15#get) |
+| fallback  | no       | ReactNode | renders the fallback value if the comparison returns false                                    |
+| not       | no       | boolean   | reverses the final comparison to define if the children will be rendered                      |
 
 `type TValue = any || (value: any, state: State) => ReactNode`
 

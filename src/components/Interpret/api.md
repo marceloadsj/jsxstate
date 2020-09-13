@@ -7,7 +7,7 @@ Starts a XState machine and injects it into a React context to provide it to oth
 | Prop    | Required | Type         | Default    | Description                                                        |
 | ------- | -------- | ------------ | ---------- | ------------------------------------------------------------------ |
 | machine | yes      | StateMachine |            | starts the provided machine and inject it into the context         |
-| options | no       | object       | undefined  | adds options like the second param of _@xstate/react useMachine()_ |
+| options | no       | object       |            | adds options like the second param of _@xstate/react useMachine()_ |
 | id      | no       | string       | machine.id | uses it instead of the _machine.id_ only for the React context     |
 
 Behind the scenes, _Interpret_ uses the _@xstate/react useMachine()_ function to starts the machine.
