@@ -1,16 +1,10 @@
+import { SyntheticEvent } from 'react'
 import { get, getEventListener, getAttributeValue } from '.'
+import { TState, TSend } from '../types'
 
 describe('get', () => {
   it('is truthy', () => {
     expect(get).toBeTruthy()
-  })
-
-  it('first arg not obj return itself', () => {
-    expect(get('a')).toBe('a')
-  })
-
-  it('second arg not string return first arg', () => {
-    expect(get('a', {})).toBe('a')
   })
 
   it('second arg not right string format return undefined', () => {
@@ -27,12 +21,6 @@ describe('get', () => {
     expect(get({}, '[.]')).toBeUndefined()
     expect(get({}, '[.a]')).toBeUndefined()
     expect(get({}, '[a.]')).toBeUndefined()
-  })
-
-  it('single arg return itself', () => {
-    const obj = {}
-
-    expect(get(obj)).toBe(obj)
   })
 
   it('find value', () => {
@@ -77,40 +65,30 @@ describe('getEventListener', () => {
     expect(getEventListener).toBeTruthy()
   })
 
-  it('throw if called without args', () => {
-    expect(() => getEventListener()).toThrow()
-  })
-
   it('get a fn', () => {
-    expect(getEventListener({})).toBeInstanceOf(Function)
+    const state = ({} as unknown) as TState
+
+    const send = jest.fn()
+
+    const type = 'a'
+
+    expect(getEventListener({ state, send, type })).toBeInstanceOf(Function)
   })
 
   it('call send fn', () => {
     let result
 
-    const send = () => {
+    const state = ({} as unknown) as TState
+
+    const send = ((() => {
       result = 'a'
-    }
+    }) as unknown) as TSend
 
-    const eventListener = getEventListener({ send, type: 'b' })
+    const eventListener = getEventListener({ state, send, type: 'b' })
 
-    eventListener()
+    eventListener({} as SyntheticEvent)
 
     expect(result).toBe('a')
-  })
-
-  it('do not call send fn if no type', () => {
-    let result
-
-    const send = () => {
-      result = 'a'
-    }
-
-    const eventListener = getEventListener({ send })
-
-    eventListener()
-
-    expect(result).toBe(undefined)
   })
 
   it('call type fn', () => {
@@ -120,23 +98,33 @@ describe('getEventListener', () => {
       result = 'a'
     }
 
-    const eventListener = getEventListener({ type })
+    const state = ({} as unknown) as TState
 
-    eventListener()
+    const send = ((() => {
+      result = 'b'
+    }) as unknown) as TSend
+
+    const eventListener = getEventListener({ state, send, type })
+
+    eventListener({} as SyntheticEvent)
 
     expect(result).toBe('a')
   })
 
   it('call type fn with right args', () => {
-    const type = (first, second, third) => {
+    const type = (first: string, second: string, third: string) => {
       expect(first).toBe('a')
       expect(second).toBe('b')
       expect(third).toBe('c')
     }
 
-    const eventListener = getEventListener({ type, state: 'b', send: 'c' })
+    const state = ('b' as unknown) as TState
 
-    eventListener('a')
+    const send = ('c' as unknown) as TSend
+
+    const eventListener = getEventListener({ state, send, type })
+
+    eventListener(('a' as unknown) as SyntheticEvent)
   })
 })
 
@@ -145,18 +133,14 @@ describe('getAttributeValue', () => {
     expect(getAttributeValue).toBeTruthy()
   })
 
-  it('throw if called without args', () => {
-    expect(() => getAttributeValue()).toThrow()
-  })
-
   it('find right value', () => {
-    const state = { context: { count: 'a' } }
+    const state = ({ context: { count: 'a' } } as unknown) as TState
 
     expect(getAttributeValue({ state, value: 'count' })).toBe('a')
   })
 
   it('do not find right value return itself', () => {
-    const state = { context: {} }
+    const state = ({ context: {} } as unknown) as TState
 
     expect(getAttributeValue({ state, value: 'count' })).toBe('count')
   })
@@ -164,20 +148,28 @@ describe('getAttributeValue', () => {
   it('call value fn', () => {
     let result
 
+    const state = ({} as unknown) as TState
+
     const value = () => {
       result = 'a'
     }
 
-    getAttributeValue({ value })
+    getAttributeValue({ state, value })
 
     expect(result).toBe('a')
   })
 
   it('call value fn with right args', () => {
-    const value = (state) => {
-      expect(state).toBe('a')
+    const state = ('a' as unknown) as TState
+
+    let result
+
+    const value = (state: string) => {
+      result = state
     }
 
-    getAttributeValue({ state: 'a', value })
+    getAttributeValue({ state, value })
+
+    expect(result).toBe('a')
   })
 })

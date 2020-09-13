@@ -1,5 +1,7 @@
 import { createContext } from 'react'
-import { Interpreter, State } from 'xstate'
+import { Interpreter } from 'xstate'
+
+import { TState, TSend } from '../../types'
 
 export interface IMachineCtx {
   [key: string]: {
@@ -8,11 +10,7 @@ export interface IMachineCtx {
 }
 
 // TODO: check if we can make a PR to @xstate/react exposing its types
-export type Ctx = [
-  State<any, any, any, any>,
-  Interpreter<any, any, any, any>['send'],
-  Interpreter<any, any, any, any>
-]
+export type Ctx = [TState, TSend, Interpreter<any, any, any, any>]
 
 const MachineContext = createContext<IMachineCtx | undefined>(undefined)
 
