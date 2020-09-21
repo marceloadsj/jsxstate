@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { screen } from '@testing-library/react'
 import { Machine } from 'xstate'
 
+import { TState } from '../../types'
 import { render } from '../../../testUtils'
 import MachineContext from '../MachineContext'
 import Interpret from '.'
@@ -10,7 +11,9 @@ describe('Interpret', () => {
   it('is truthy', () => {
     expect(Interpret).toBeTruthy()
   })
+})
 
+describe('Interpret children', () => {
   test('shows the children', () => {
     const testMachine = Machine({
       id: 'test',
@@ -25,6 +28,40 @@ describe('Interpret', () => {
     expect(screen.getByText('Test Message')).toBeInTheDocument()
   })
 
+  test('shows the children as function', () => {
+    const testMachine = Machine({
+      id: 'test',
+      initial: 'idle',
+      states: {
+        idle: {}
+      }
+    })
+
+    render(<Interpret machine={testMachine}>{() => 'Test Message'}</Interpret>)
+
+    expect(screen.getByText('Test Message')).toBeInTheDocument()
+  })
+
+  test('shows the children as function with state', () => {
+    const testMachine = Machine({
+      id: 'test',
+      initial: 'idle',
+      states: {
+        idle: {}
+      }
+    })
+
+    render(
+      <Interpret machine={testMachine}>
+        {(state: TState) => state.value}
+      </Interpret>
+    )
+
+    expect(screen.getByText('idle')).toBeInTheDocument()
+  })
+})
+
+describe('Interpret machine', () => {
   test('provides the machine', () => {
     const testMachine = Machine({
       id: 'test',
@@ -55,7 +92,7 @@ describe('Interpret', () => {
     expect(contextMachine).not.toBeUndefined()
   })
 
-  test('provides the machine in its right format', () => {
+  test('provides the machine on its right format', () => {
     const testMachine = Machine({
       id: 'test',
       initial: 'idle',
@@ -89,7 +126,9 @@ describe('Interpret', () => {
     expect(contextMachine.current[1]).toBeInstanceOf(Function)
     expect(contextMachine.current[2]).toBeInstanceOf(Object)
   })
+})
 
+describe('Interpret id', () => {
   test('provides the machine under its id', () => {
     const testMachine = Machine({
       id: 'test',
@@ -208,7 +247,9 @@ describe('Interpret', () => {
 
     expect(contextMachine).not.toBeUndefined()
   })
+})
 
+describe('Interpret options', () => {
   test('calls the action', () => {
     const testMachine = Machine({
       id: 'test',

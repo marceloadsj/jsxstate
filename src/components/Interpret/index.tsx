@@ -4,7 +4,6 @@ import { StateMachine } from 'xstate'
 
 import MachineContext from '../MachineContext'
 
-// TODO: check if we can make a PR to @xstate/react exposing its types
 type TInterpretProps = {
   machine: StateMachine<any, any, any, any>
   options?: any
@@ -37,8 +36,16 @@ const Interpret: FC<TInterpretProps> = ({ machine, options, id, children }) => {
     }
   }
 
+  let parsedChildren = children
+
+  if (typeof children === 'function') {
+    parsedChildren = children(...currentMachine)
+  }
+
   return (
-    <MachineContext.Provider value={value}>{children}</MachineContext.Provider>
+    <MachineContext.Provider value={value}>
+      {parsedChildren}
+    </MachineContext.Provider>
   )
 }
 

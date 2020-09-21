@@ -1,23 +1,28 @@
 ## `<Interpret />`
 
-Starts a XState machine and injects it into a React context to provide it to other components.
+Starts an XState machine and injects it into a React context to provide it to other components.
 
 ---
 
-| Prop    | Required | Type         | Default    | Description                                                        |
-| ------- | -------- | ------------ | ---------- | ------------------------------------------------------------------ |
-| machine | yes      | StateMachine |            | starts the provided machine and inject it into the context         |
-| options | no       | object       |            | adds options like the second param of _@xstate/react useMachine()_ |
-| id      | no       | string       | machine.id | uses it instead of the _machine.id_ only for the React context     |
+| Prop     | Required | Type         | Default    | Description                                                           |
+| -------- | -------- | ------------ | ---------- | --------------------------------------------------------------------- |
+| children | yes      | TChildren    |            | renders the components or use a render prop function                  |
+| machine  | yes      | StateMachine |            | starts the provided machine and injects it into the context           |
+| options  | no       | object       |            | adds options like the second argument of _@xstate/react useMachine()_ |
+| id       | no       | string       | machine.id | uses it instead of the _machine.id_ only for the React context        |
+
+```typescript
+type TChildren = ReactNode | (state: TState, send: TSend, service: TService): ReactNode
+```
 
 Behind the scenes, _Interpret_ uses the _@xstate/react useMachine()_ function to starts the machine.
-So, if you have questions about the props, just check the [_@xstate/react_ docs](https://xstate.js.org/docs/packages/xstate-react/#quick-start).
+So, if you have questions about these props, just check the [_@xstate/react_ docs](https://xstate.js.org/docs/packages/xstate-react/#quick-start).
 
 The _machine.id_, if existent, will be used to generate a unique pointer to that machine in the current React context.
 If a machine with the same id already exists in the current React tree branch, the new one will not be injected and a warn on console will trigger.
-But, you can pass an _id_ prop to change the pointer of React context, so you can target it using _machineId_ prop of other components.
+But, you can pass an _id_ prop to change the pointer of React context, so you can target it using _machineId_ of other components or hooks.
 
-[MachineContext](https://github.com/marceloadsj/jsxstate/blob/master/src/components/MachineContext/api.md) - Check it for more in deep explanation of how the React context works inside the library
+[MachineContext](https://github.com/marceloadsj/jsxstate/blob/master/src/components/MachineContext/api.md) - Check it for a more in deep explanation of how the React context works inside the library
 
 ### Examples:
 
