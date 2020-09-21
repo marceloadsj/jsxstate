@@ -1,15 +1,7 @@
-import { FC, ReactNode, ReactElement } from 'react'
+import { FC, ReactElement } from 'react'
 
-import { TState } from '../../types'
+import { TMatchesProps } from '../../types'
 import useMatches from '../../hooks/useMatches'
-
-type TMatchesProps = {
-  machineId?: string
-  context?: string
-  not?: boolean
-  value?: string | ((value: any, state: TState) => boolean)
-  fallback?: ReactNode
-}
 
 const Matches: FC<TMatchesProps> = ({
   machineId,

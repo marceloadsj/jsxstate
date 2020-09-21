@@ -35,6 +35,10 @@ You can find each API individually below:
 
 ### Hooks:
 
+[useContextMachine](https://github.com/marceloadsj/jsxstate/blob/master/src/hooks/useContextMachine/api.md) - How to access the machines on the context
+
+[useMatches](https://github.com/marceloadsj/jsxstate/blob/master/src/hooks/useMatches/api.md) - How to get booleans based on finite or infinite state
+
 _WIP ..._
 
 ### Internals

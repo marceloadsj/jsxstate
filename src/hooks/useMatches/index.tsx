@@ -1,7 +1,14 @@
 import { get } from '../../utils'
 import useContextMachine from '../useContextMachine'
+import { TMatchesProps } from '../../types'
 
-export default function useMatches({ machineId, context, not, value }) {
+type TUseMatchesArgs = Partial<TMatchesProps> & {
+  fallback?: any
+}
+
+type TUseMatches = (args: TUseMatchesArgs) => boolean
+
+const useMatches: TUseMatches = ({ machineId, context, not, value }) => {
   const [state] = useContextMachine(machineId) || []
 
   if (state) {
@@ -26,3 +33,5 @@ export default function useMatches({ machineId, context, not, value }) {
 
   return false
 }
+
+export default useMatches
