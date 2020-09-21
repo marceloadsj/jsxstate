@@ -1,6 +1,6 @@
 ### `useMatches`
 
-Works like the **Matches** component, but returning a boolean instead of rendering the children.
+Works like the _Matches_ component, but returning a boolean instead of rendering the children.
 
 ---
 
