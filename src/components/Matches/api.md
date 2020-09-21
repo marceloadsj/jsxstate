@@ -4,20 +4,28 @@ Validates machine finite (state.value) or infinite (state.context) state and ren
 
 ---
 
-| Prop      | Required | Type      | Description                                                                                   |
-| --------- | -------- | --------- | --------------------------------------------------------------------------------------------- |
-| machineId | no       | string    | targets the machine by the id it was registered on Interpret                                  |
-| value     | no       | TValue    | compares the value prop against the state or the context of the machine                       |
-| context   | no       | string    | points to the context of the machine with [dot notation](https://lodash.com/docs/4.17.15#get) |
-| fallback  | no       | ReactNode | renders the fallback value if the comparison returns false                                    |
-| not       | no       | boolean   | reverses the final comparison to define if the children will be rendered                      |
+| Prop      | Required | Type      | Default | Description                                                                                   |
+| --------- | -------- | --------- | ------- | --------------------------------------------------------------------------------------------- |
+| value     | yes      | TValue    |         | compares the value prop against the state or the context of the machine                       |
+| machineId | no       | string    |         | targets the machine by the id it was registered on Interpret                                  |
+| context   | no       | string    |         | points to the context of the machine with [dot notation](https://lodash.com/docs/4.17.15#get) |
+| not       | no       | boolean   |         | reverses the final comparison to define if the children will be rendered                      |
+| children  | no       | TChildren |         | renders the components or use a render prop function                                          |
+| fallback  | no       | TFallback | null    | renders the fallback value if the comparison returns false                                    |
 
 ```typescript
-type TValue = string | ((value: any, state: TState) => boolean)
+type TValue = string | ((state: TState) => any)
+
+type TChildren = ReactNode | ((matches: boolean, state: TState) => ReactNode)
+
+type TFallback = ReactNode | ((state: TState) => ReactNode)
 ```
 
 The default comparison will use triple equal (===) to check between the finite or infinite state and the _value_ provided as a prop.
 If the result is true, the children of the component will be rendered, otherwise, the _fallback_ prop. If fallback does not exists, nothing will be rendered.
+
+If children is a render prop, _Matches_ will always run it and render the result, so you have to control the render by yourself.
+In that case, the _fallback_ prop is just ignored as you have full control of the boolean.
 
 ### Examples:
 
@@ -54,7 +62,7 @@ function Component() {
 ```jsx
 const loadingMachine = Machine(/* ... */)
 
-// When
+// Fallback is rendered if it does not match
 function Component() {
   return (
     <Interpret machine={loadingMachine}>

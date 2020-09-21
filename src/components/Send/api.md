@@ -29,8 +29,9 @@ type TValue = string | ((state: TState) => any)
 
 Check [this file](https://github.com/marceloadsj/jsxstate/blob/master/src/constants/index.tsx) for a complete list of the events and attributes
 
-The event listener props are enhanced events that can receive the same values as the **@xstate/react useMachine()** second item of the array, aka the send function.
-The specific dom attributes, like value, help you creating inputs that points to the machine context directly by its key described as dot notation.
+The event listener props, like _onClick_, are enhanced events that can receive the same values as the **@xstate/react useMachine()** second item of the array, aka the send function.
+
+The dom attributes props, like _value_ or _checked_, help you creating inputs that points to the machine context directly by its key described as dot notation.
 
 ### Examples:
 

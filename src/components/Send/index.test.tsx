@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { screen } from '@testing-library/react'
 import { Machine } from 'xstate'
 
@@ -10,7 +10,9 @@ describe('Send', () => {
   it('is truthy', () => {
     expect(Send).toBeTruthy()
   })
+})
 
+describe('Send children', () => {
   test('renders the button', () => {
     const testMachine = Machine({
       id: 'test',
@@ -46,7 +48,9 @@ describe('Send', () => {
 
     expect(screen.getByText('Test Message')).toBeInTheDocument()
   })
+})
 
+describe('Send as', () => {
   test('renders other tags', () => {
     const testMachine = Machine({
       id: 'test',
@@ -90,7 +94,9 @@ describe('Send', () => {
 
     expect(screen.getByTestId('test').tagName).toBe('DIV')
   })
+})
 
+describe('Send events', () => {
   test('receives enhanced events from string', () => {
     const testMachine = Machine({
       id: 'test',
@@ -145,5 +151,36 @@ describe('Send', () => {
     )
 
     expect(enhancedEvent).toBeInstanceOf(Function)
+  })
+})
+
+describe('Send attributes', () => {
+  test('receives enhanced attributes from string', () => {
+    const testMachine = Machine({
+      id: 'test',
+      initial: 'idle',
+      context: {
+        name: 'Test Message'
+      },
+      states: {
+        idle: {}
+      }
+    })
+
+    let enhancedEvent
+
+    const Children: FC<{ value: string }> = ({ value }) => {
+      enhancedEvent = value
+
+      return <div />
+    }
+
+    render(
+      <Interpret machine={testMachine}>
+        <Send as={Children} value='name' />
+      </Interpret>
+    )
+
+    expect(enhancedEvent).toBe('Test Message')
   })
 })

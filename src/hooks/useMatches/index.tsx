@@ -1,34 +1,36 @@
 import { get } from '../../utils'
 import useContextMachine from '../useContextMachine'
-import { TMatchesProps } from '../../types'
-
-type TUseMatchesArgs = Partial<TMatchesProps> & {
-  fallback?: any
-}
-
-type TUseMatches = (args: TUseMatchesArgs) => boolean
+import { TUseMatches } from '../../types'
 
 const useMatches: TUseMatches = ({ machineId, context, not, value }) => {
   const [state] = useContextMachine(machineId) || []
 
   if (state) {
-    let valueMatches
+    let matches
 
+    // Validate with the context prop
     if (context) {
       if (typeof value === 'function') {
-        valueMatches = value(get(state.context, context), state)
+        matches = value(get(state.context, context), state)
       } else {
-        valueMatches = get(state.context, context) === value
+        matches = get(state.context, context) === value
       }
+
+      // Validate the state of the machine
     } else {
       if (typeof value === 'function') {
-        valueMatches = value(state.value, state)
+        matches = value(state.value, state)
       } else {
-        valueMatches = state.matches(value)
+        matches = state.matches(value)
       }
     }
 
-    return (not && !valueMatches) || (!not && valueMatches)
+    // With not prop, we invert the matches boolean
+    if (not) {
+      matches = !matches
+    }
+
+    return matches
   }
 
   return false

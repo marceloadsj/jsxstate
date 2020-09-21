@@ -1,16 +1,16 @@
 import { useContext } from 'react'
 
-import { TUseMachineReturn } from '../../types'
+import { TUseContextMachine } from '../../types'
 import MachineContext from '../../components/MachineContext'
-
-type TUseContextMachine = (id?: string) => TUseMachineReturn | undefined
 
 const useContextMachine: TUseContextMachine = (id) => {
   const allMachines = useContext(MachineContext)
 
   if (allMachines) {
+    // If no id is passed, we use the closest machine
     if (!id) return allMachines.ref.current
 
+    // With an id, we try to find the specific machine
     if (allMachines[id]) return allMachines[id].current
   }
 

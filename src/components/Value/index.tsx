@@ -1,26 +1,33 @@
-import { FC, ReactNode } from 'react'
+import { FC } from 'react'
 
-import { TState } from '../../types'
+import { TValueProps } from '../../types'
 import useValue from '../../hooks/useValue'
-
-type TValueProps = {
-  machineId?: string
-  context?: string
-  parse?: (value: any, state: TState) => ReactNode
-  fallback?: ReactNode
-}
+import useContextMachine from '../../hooks/useContextMachine'
 
 const Value: FC<TValueProps> = ({
   machineId,
   context,
   parse,
+  children,
   fallback = null
 }) => {
   const value = useValue({ machineId, context, parse, fallback })
 
-  if (value === undefined) return fallback
+  const [state] = useContextMachine(machineId) || []
 
-  if (value?.toString?.() === '[object Object]') return null
+  if (value === undefined) {
+    // Execute the fallback as function or just render it
+    if (typeof fallback === 'function') {
+      return fallback(state)
+    }
+
+    return fallback
+  }
+
+  // If children is a function, we execute it with the value and state
+  if (typeof children === 'function') {
+    return (children as any)(value, state)
+  }
 
   return value
 }

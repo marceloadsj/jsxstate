@@ -1,9 +1,11 @@
 import { get } from '../../utils'
 import useContextMachine from '../useContextMachine'
+import { TUseValue } from '../../types'
 
-export default function useValue({ machineId, context, parse, fallback } = {}) {
+const useValue: TUseValue = ({ machineId, context, parse, fallback } = {}) => {
   const [state] = useContextMachine(machineId) || []
 
+  // If no state is found, we simply return undefined
   if (!state) return
 
   let value
@@ -22,3 +24,5 @@ export default function useValue({ machineId, context, parse, fallback } = {}) {
 
   return value
 }
+
+export default useValue

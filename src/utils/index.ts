@@ -64,7 +64,7 @@ export const getEventListener: TGetEventListener = ({ state, send, type }) => {
 
 type TValue = string | ((state: TState) => any)
 
-type TGetAttributeValue = (args: { state: TState; value: TValue }) => any | void
+type TGetAttributeValue = (args: { state: TState; value: TValue }) => any
 
 export const getAttributeValue: TGetAttributeValue = ({ state, value }) => {
   if (typeof value === 'string') {

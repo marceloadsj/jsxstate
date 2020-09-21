@@ -10,7 +10,47 @@ describe('Value', () => {
   it('is truthy', () => {
     expect(Value).toBeTruthy()
   })
+})
 
+describe('Value children', () => {
+  test('renders the children value', () => {
+    const testMachine = Machine({
+      id: 'test',
+      initial: 'idle',
+      states: {
+        idle: {}
+      }
+    })
+
+    render(
+      <Interpret machine={testMachine}>
+        <Value>{() => 'Test Message'}</Value>
+      </Interpret>
+    )
+
+    expect(screen.getByText('Test Message')).toBeInTheDocument()
+  })
+
+  test('renders the children value', () => {
+    const testMachine = Machine({
+      id: 'test',
+      initial: 'idle',
+      states: {
+        idle: {}
+      }
+    })
+
+    render(
+      <Interpret machine={testMachine}>
+        <Value>{(value: string) => value.toUpperCase()}</Value>
+      </Interpret>
+    )
+
+    expect(screen.getByText('IDLE')).toBeInTheDocument()
+  })
+})
+
+describe('Value state', () => {
   test('renders the state value', () => {
     const testMachine = Machine({
       id: 'test',
@@ -28,7 +68,9 @@ describe('Value', () => {
 
     expect(screen.getByText('idle')).toBeInTheDocument()
   })
+})
 
+describe('Value context', () => {
   test('renders a context value', () => {
     const testMachine = Machine({
       id: 'test',
@@ -72,7 +114,9 @@ describe('Value', () => {
 
     expect(screen.getByText('Test Message')).toBeInTheDocument()
   })
+})
 
+describe('Value parse', () => {
   test('renders the parsed result', () => {
     const testMachine = Machine({
       id: 'test',
@@ -155,7 +199,9 @@ describe('Value', () => {
 
     expect(screen.getByText('TEST MESSAGE')).toBeInTheDocument()
   })
+})
 
+describe('Value fallback', () => {
   test('renders the fallback', () => {
     const testMachine = Machine({
       id: 'test',
@@ -173,51 +219,5 @@ describe('Value', () => {
     )
 
     expect(screen.getByText('Test Message')).toBeInTheDocument()
-  })
-
-  test('does not render object', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      context: {
-        messages: {}
-      },
-      states: {
-        idle: {}
-      }
-    })
-
-    render(
-      <Interpret machine={testMachine}>
-        <div data-testid='test'>
-          <Value context='messages' />
-        </div>
-      </Interpret>
-    )
-
-    expect(screen.getByTestId('test')).toBeEmptyDOMElement()
-  })
-
-  test('does not render fallback when object found', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      context: {
-        messages: {}
-      },
-      states: {
-        idle: {}
-      }
-    })
-
-    render(
-      <Interpret machine={testMachine}>
-        <div data-testid='test'>
-          <Value context='messages' fallback='Test Message' />
-        </div>
-      </Interpret>
-    )
-
-    expect(screen.getByTestId('test')).toBeEmptyDOMElement()
   })
 })

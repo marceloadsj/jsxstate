@@ -1,13 +1,9 @@
 import React, { ForwardRefRenderFunction, forwardRef } from 'react'
 
+import { TSendProps } from '../../types'
 import { getEventListener, getAttributeValue } from '../../utils'
 import { reactEvents, reactAttributes } from '../../constants'
 import useContextMachine from '../../hooks/useContextMachine'
-
-type TSendProps = {
-  as: any
-  machineId?: string
-}
 
 const Send: ForwardRefRenderFunction<any, TSendProps> = (
   { as: As = 'button', machineId, ...props },
@@ -15,6 +11,7 @@ const Send: ForwardRefRenderFunction<any, TSendProps> = (
 ) => {
   const context = useContextMachine(machineId)
 
+  // If no context provided, we simply render the standard component
   if (!context) return <As {...props} ref={ref} />
 
   const [state, send] = context
@@ -22,6 +19,7 @@ const Send: ForwardRefRenderFunction<any, TSendProps> = (
 
   const parsedProps = {}
 
+  // Parse event listeners to enhance them to send them to the machine
   propEntries
     .filter(([key]) => reactEvents.has(key))
     .forEach(([key, type]) => {
@@ -32,6 +30,7 @@ const Send: ForwardRefRenderFunction<any, TSendProps> = (
       })
     })
 
+  // Parse some other props to attach their value to machine state
   propEntries
     .filter(([key]) => reactAttributes.has(key))
     .forEach(([key, value]) => {

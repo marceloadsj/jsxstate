@@ -10,7 +10,65 @@ describe('Matches', () => {
   it('is truthy', () => {
     expect(Matches).toBeTruthy()
   })
+})
 
+describe('Matches children', () => {
+  test('renders children as node', () => {
+    const testMachine = Machine({
+      id: 'test',
+      initial: 'idle',
+      states: {
+        idle: {}
+      }
+    })
+
+    render(
+      <Interpret machine={testMachine}>
+        <Matches value='idle'>Test Message</Matches>
+      </Interpret>
+    )
+
+    expect(screen.getByText('Test Message')).toBeInTheDocument()
+  })
+
+  test('renders children as function', () => {
+    const testMachine = Machine({
+      id: 'test',
+      initial: 'idle',
+      states: {
+        idle: {}
+      }
+    })
+
+    render(
+      <Interpret machine={testMachine}>
+        <Matches value='idle'>{() => 'Test Message'}</Matches>
+      </Interpret>
+    )
+
+    expect(screen.getByText('Test Message')).toBeInTheDocument()
+  })
+
+  test('renders children as function even not matching', () => {
+    const testMachine = Machine({
+      id: 'test',
+      initial: 'idle',
+      states: {
+        idle: {}
+      }
+    })
+
+    render(
+      <Interpret machine={testMachine}>
+        <Matches value='loading'>{() => 'Test Message'}</Matches>
+      </Interpret>
+    )
+
+    expect(screen.getByText('Test Message')).toBeInTheDocument()
+  })
+})
+
+describe('Matches value', () => {
   test('renders as the state matches', () => {
     const testMachine = Machine({
       id: 'test',
@@ -29,6 +87,67 @@ describe('Matches', () => {
     expect(screen.getByText('Test Message')).toBeInTheDocument()
   })
 
+  test('does not render as the state is different', () => {
+    const testMachine = Machine({
+      id: 'test',
+      initial: 'running',
+      states: {
+        idle: {},
+        running: {}
+      }
+    })
+
+    render(
+      <Interpret machine={testMachine}>
+        <div data-testid='test'>
+          <Matches value='idle'>Test Message</Matches>
+        </div>
+      </Interpret>
+    )
+
+    expect(screen.getByTestId('test')).toBeEmptyDOMElement()
+  })
+
+  test('renders with value as function', () => {
+    const testMachine = Machine({
+      id: 'test',
+      initial: 'idle',
+      states: {
+        idle: {}
+      }
+    })
+
+    render(
+      <Interpret machine={testMachine}>
+        <Matches value={() => true}>Test Message</Matches>
+      </Interpret>
+    )
+
+    expect(screen.getByText('Test Message')).toBeInTheDocument()
+  })
+
+  test('does not render with value as function', () => {
+    const testMachine = Machine({
+      id: 'test',
+      initial: 'idle',
+      states: {
+        idle: {}
+      }
+    })
+
+    render(
+      <Interpret machine={testMachine}>
+        <div data-testid='test'>
+          <Matches value={() => false}>Test Message</Matches>
+        </div>
+      </Interpret>
+    )
+
+    expect(screen.getByTestId('test')).toBeEmptyDOMElement()
+  })
+})
+
+describe('Matches context', () => {
   test('renders as the context matches', () => {
     const testMachine = Machine({
       id: 'test',
@@ -77,27 +196,6 @@ describe('Matches', () => {
     expect(screen.getByText('Test Message')).toBeInTheDocument()
   })
 
-  test('does not render as the state is different', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'running',
-      states: {
-        idle: {},
-        running: {}
-      }
-    })
-
-    render(
-      <Interpret machine={testMachine}>
-        <div data-testid='test'>
-          <Matches value='idle'>Test Message</Matches>
-        </div>
-      </Interpret>
-    )
-
-    expect(screen.getByTestId('test')).toBeEmptyDOMElement()
-  })
-
   test('does not render as the context is different', () => {
     const testMachine = Machine({
       id: 'test',
@@ -123,7 +221,9 @@ describe('Matches', () => {
 
     expect(screen.getByTestId('test')).toBeEmptyDOMElement()
   })
+})
 
+describe('Matches not', () => {
   test('renders with not inverting comparison', () => {
     const testMachine = Machine({
       id: 'test',
@@ -215,7 +315,9 @@ describe('Matches', () => {
 
     expect(screen.getByTestId('test')).toBeEmptyDOMElement()
   })
+})
 
+describe('Matches fallback', () => {
   test('renders the fallback', () => {
     const testMachine = Machine({
       id: 'test',
@@ -255,43 +357,5 @@ describe('Matches', () => {
     )
 
     expect(screen.getByText('Test Message')).toBeInTheDocument()
-  })
-
-  test('renders with value as function', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      states: {
-        idle: {}
-      }
-    })
-
-    render(
-      <Interpret machine={testMachine}>
-        <Matches value={() => true}>Test Message</Matches>
-      </Interpret>
-    )
-
-    expect(screen.getByText('Test Message')).toBeInTheDocument()
-  })
-
-  test('does not render with value as function', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      states: {
-        idle: {}
-      }
-    })
-
-    render(
-      <Interpret machine={testMachine}>
-        <div data-testid='test'>
-          <Matches value={() => false}>Test Message</Matches>
-        </div>
-      </Interpret>
-    )
-
-    expect(screen.getByTestId('test')).toBeEmptyDOMElement()
   })
 })

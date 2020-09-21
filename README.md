@@ -156,7 +156,7 @@ Version 1
 - [x] Documentation for all components
 - [x] Targeting machines by configurable id/machine id on components
 - [ ] Basic hooks (useContextMachine, useValue, useSend, useMatches)
-- [ ] Tests for all and hooks
+- [ ] Tests for all hooks
 - [ ] Documentation for all hooks
 - [ ] Targeting machines by configurable id/machine id on hooks
 - [ ] Everything written in Typescript
