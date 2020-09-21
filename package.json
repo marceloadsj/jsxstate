@@ -1,6 +1,6 @@
 {
   "name": "jsxstate",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Declarative UIs for declarative XState machines",
   "author": "marceloadsj",
   "license": "MIT",
