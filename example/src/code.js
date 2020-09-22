@@ -1,6 +1,5 @@
 export default `/*
-Components available: Interpret, Send, Value, Matches
-Hooks available: useContextMachine, useValue, useMatches
+All jsxstate components and hooks are available
 CSS classes available: tailwind css classes https://tailwindcss.com/
 */
 

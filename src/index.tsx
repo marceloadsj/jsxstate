@@ -5,6 +5,5 @@ export { default as Value } from './components/Value'
 
 export { default as useContextMachine } from './hooks/useContextMachine'
 export { default as useMatches } from './hooks/useMatches'
+export { default as useSend } from './hooks/useSend'
 export { default as useValue } from './hooks/useValue'
-
-// export { default as useSend } from './hooks/useSend'

@@ -1,21 +1,16 @@
-import { SyntheticEvent } from 'react'
-import { TState, TSend } from '../types'
+import { TTravel, TGet, TGetEventListener, TGetAttributeValue } from '../types'
 
 const leftRegExp = /[,[\]]+?/
 const rightRegExp = /[,[\].]+?/
-
-type TTravel = (obj: any, path: string, regExp: RegExp) => any
 
 const travel: TTravel = (obj, path, regExp) => {
   return String.prototype.split
     .call(path, regExp)
     .filter(Boolean)
-    .reduce((res, key) => {
-      return res === undefined ? res : res[key]
+    .reduce((result, key) => {
+      return result === undefined ? result : result[key]
     }, obj)
 }
-
-type TGet = (obj: any, path: string, fallback?: any) => any
 
 export const get: TGet = (obj, path, fallback) => {
   let result = travel(obj, path, leftRegExp)
@@ -28,21 +23,6 @@ export const get: TGet = (obj, path, fallback) => {
 
   return result
 }
-
-type TType =
-  | string
-  | { [key: string]: any }
-  | ((
-      event: SyntheticEvent,
-      state: TState,
-      send: TSend
-    ) => void | string | { [key: string]: any })
-
-type TGetEventListener = (args: {
-  state: TState
-  send: TSend
-  type: TType
-}) => (event: SyntheticEvent) => void
 
 export const getEventListener: TGetEventListener = ({ state, send, type }) => {
   return (event) => {
@@ -62,10 +42,6 @@ export const getEventListener: TGetEventListener = ({ state, send, type }) => {
   }
 }
 
-type TValue = string | ((state: TState) => any)
-
-type TGetAttributeValue = (args: { state: TState; value: TValue }) => any
-
 export const getAttributeValue: TGetAttributeValue = ({ state, value }) => {
   if (typeof value === 'string') {
     const parsedValue = get(state.context, value)
@@ -79,3 +55,5 @@ export const getAttributeValue: TGetAttributeValue = ({ state, value }) => {
     return value(state)
   }
 }
+
+export const noop = () => undefined

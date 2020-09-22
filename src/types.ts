@@ -1,34 +1,55 @@
-import { ReactNode } from 'react'
+import { ReactNode, SyntheticEvent } from 'react'
 import { StateMachine, Interpreter, State } from 'xstate'
 
-// Xstate
+// XState
 export type TState = State<any, any, any, any>
 
 export type TInterpreter = Interpreter<any, any, any, any>
 
 export type TSend = TInterpreter['send']
 
-// Common
 export type TUseMachineReturn = [TState, TSend, TInterpreter]
 
-export type TMatches = {
+// Common
+export type TObject = { [key: string]: any }
+
+// Shared
+export type TMatchesShared = {
   value: string | ((value: any, state: TState) => boolean)
   machineId?: string
   context?: string
   not?: boolean
 }
 
-export type TChildren =
-  | ReactNode
-  | ((matches: boolean, state: TState) => ReactNode)
+export type TSendShared = {
+  machineId?: string
+}
 
-export type TFallback = ReactNode | ((state: TState) => ReactNode)
-
-export type TValue = {
+export type TValueShared = {
   machineId?: string
   context?: string
   parse?: (value: any, state: TState) => ReactNode
 }
+
+// Args
+export type TChildrenArg =
+  | ReactNode
+  | ((matches: boolean, state: TState) => ReactNode)
+
+export type TFallbackArg = ReactNode | ((state: TState) => ReactNode)
+
+export type TEventArg = (event?: SyntheticEvent) => void
+
+export type TTypeArg =
+  | string
+  | TObject
+  | ((
+      event: SyntheticEvent | undefined,
+      state: TState,
+      send: TSend
+    ) => void | string | TObject)
+
+export type TValueArg = string | ((state: TState) => any)
 
 // Components
 export type TInterpretProps = {
@@ -47,34 +68,51 @@ export type TMachineContext = {
   }
 }
 
-export type TMatchesProps = TMatches & {
-  children?: TChildren
-  fallback?: TFallback
+export type TMatchesProps = TMatchesShared & {
+  children?: TChildrenArg
+  fallback?: TFallbackArg
 }
 
-export type TValueProps = TValue & {
-  children?: TChildren
-  fallback?: TFallback
+export type TSendProps = TSendShared & {
+  as?: any
+  children?: ReactNode
+  [key: string]: any
+}
+
+export type TValueProps = TValueShared & {
+  children?: TChildrenArg
+  fallback?: TFallbackArg
 }
 
 // Hooks
 export type TUseContextMachine = (id?: string) => TUseMachineReturn | undefined
 
 export type TUseMatches = (
-  args: TMatches & {
+  args: TMatchesShared & {
     fallback?: any
   }
 ) => boolean
 
-export type TSendProps = {
-  as?: any
-  machineId?: string
-  children?: ReactNode
-  [key: string]: any
-}
+export type TUseSend = (type: TTypeArg, options?: TSendShared) => TEventArg
 
 export type TUseValue = (
-  args: TValue & {
+  args: TValueShared & {
     fallback?: any
   }
 ) => any
+
+// Utilities
+export type TTravel = (obj: any, path: string, regExp: RegExp) => any
+
+export type TGet = (obj: any, path: string, fallback?: any) => any
+
+export type TGetEventListener = (args: {
+  state: TState
+  send: TSend
+  type: TTypeArg
+}) => TEventArg
+
+export type TGetAttributeValue = (args: {
+  state: TState
+  value: TValueArg
+}) => any
