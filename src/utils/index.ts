@@ -38,7 +38,7 @@ export const getEventListener: TGetEventListener = ({ state, send, type }) => {
       parsedType = { type: parsedType }
     }
 
-    send({ ...event, ...parsedType })
+    send(parsedType)
   }
 }
 
