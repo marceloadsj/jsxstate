@@ -21,6 +21,18 @@ Instead of writing imperactive coding, creating functions to trigger events or c
 
 ---
 
+## Install
+
+```bash
+npm install jsxstate --save
+# or
+yarn add jsxstate
+```
+
+**Peer dependencies:** `react xstate @xstate/react`
+
+---
+
 ## APIs
 
 You can find each API individually below:
@@ -39,25 +51,15 @@ You can find each API individually below:
 
 [useMatches](https://github.com/marceloadsj/jsxstate/blob/master/src/hooks/useMatches/api.md) - How to get booleans based on finite or infinite state
 
-_WIP ..._
+[useSend](https://github.com/marceloadsj/jsxstate/blob/master/src/hooks/useSend/api.md) - How to get triggers to send events to the machine
+
+[useValue](https://github.com/marceloadsj/jsxstate/blob/master/src/hooks/useValue/api.md) - How to access machine finite or infinite states
 
 ### Internals
 
 Those are not exported, but you can read how they works under the hood
 
 [MachineContext](https://github.com/marceloadsj/jsxstate/blob/master/src/components/MachineContext/api.md) - How React context works inside the library
-
----
-
-## Install
-
-```bash
-npm install jsxstate --save
-# or
-yarn add jsxstate
-```
-
-**Peer dependencies:** `react xstate @xstate/react`
 
 ---
 
