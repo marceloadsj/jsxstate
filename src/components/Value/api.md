@@ -4,21 +4,16 @@ Renders the machine finite (state.value) or infinite (state.context) data into t
 
 ---
 
-| Prop      | Required | Type      | Default | Description                                                                                      |
-| --------- | -------- | --------- | ------- | ------------------------------------------------------------------------------------------------ |
-| machineId | no       | string    |         | targets the machine by the id it was registered on Interpret                                     |
-| context   | no       | string    |         | retrieves on the context of the machine with [dot notation](https://lodash.com/docs/4.17.15#get) |
-| parse     | no       | TParse    |         | parses the value and return what will be rendered                                                |
-| children  | no       | TChildren |         | renders the components or use a render prop function                                             |
-| fallback  | no       | TFallback | null    | renders the fallback value if none (undefined) was found                                         |
+Check **TValueProps** to see the type/signature of the Component:
+[https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts](https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts)
 
-```typescript
-type TParse = (value: any, state: TState) => ReactNode
-
-type TChildren = ReactNode | ((matches: boolean, state: TState) => ReactNode)
-
-type TFallback = ReactNode | ((state: TState) => ReactNode)
-```
+| Prop      | Required | Type           | Default | Description                                                                                   |
+| --------- | -------- | -------------- | ------- | --------------------------------------------------------------------------------------------- |
+| children  | no       | TValueChildren |         | renders the components or use a render prop function                                          |
+| fallback  | no       | TFallback      | null    | renders the fallback value if none (undefined) was found                                      |
+| machineId | no       | string         |         | targets the machine by the id it was registered on Interpret                                  |
+| context   | no       | string         |         | points to the context of the machine with [dot notation](https://lodash.com/docs/4.17.15#get) |
+| parse     | no       | TParse         |         | parses the value and return what will be rendered                                             |
 
 It renders the value it finds inside the machine, being the finite or infinite state. The parse function will be run before the render occurs.
 

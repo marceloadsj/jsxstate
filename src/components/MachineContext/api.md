@@ -4,6 +4,9 @@ Standard React context instance created with **React.createContext**.
 
 ---
 
+Check **TMachineContext** to see the type/signature of the Context:
+[https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts](https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts)
+
 The React context used on the library works in a way you can access any store of the tree by its _machineId_.
 That approach allows us to have control of the closest machine and the machines above that, so you can just target it in an easy way.
 

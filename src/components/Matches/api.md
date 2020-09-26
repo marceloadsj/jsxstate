@@ -4,22 +4,17 @@ Validates machine finite (state.value) or infinite (state.context) state and ren
 
 ---
 
-| Prop      | Required | Type      | Default | Description                                                                                   |
-| --------- | -------- | --------- | ------- | --------------------------------------------------------------------------------------------- |
-| value     | yes      | TValue    |         | compares the value prop against the state or the context of the machine                       |
-| machineId | no       | string    |         | targets the machine by the id it was registered on Interpret                                  |
-| context   | no       | string    |         | points to the context of the machine with [dot notation](https://lodash.com/docs/4.17.15#get) |
-| not       | no       | boolean   |         | reverses the final comparison to define if the children will be rendered                      |
-| children  | no       | TChildren |         | renders the components or use a render prop function                                          |
-| fallback  | no       | TFallback | null    | renders the fallback value if the comparison returns false                                    |
+Check **TMatchesProps** to see the type/signature of the Component:
+[https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts](https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts)
 
-```typescript
-type TValue = string | ((state: TState) => any)
-
-type TChildren = ReactNode | ((matches: boolean, state: TState) => ReactNode)
-
-type TFallback = ReactNode | ((state: TState) => ReactNode)
-```
+| Prop      | Required | Type             | Default | Description                                                                                   |
+| --------- | -------- | ---------------- | ------- | --------------------------------------------------------------------------------------------- |
+| value     | yes      | TMatchesValue    |         | compares the value prop against the state or the context of the machine                       |
+| children  | no       | TMatchesChildren |         | renders the components or use a render prop function                                          |
+| fallback  | no       | TFallback        | null    | renders the fallback value if the comparison returns false                                    |
+| machineId | no       | string           |         | targets the machine by the id it was registered on Interpret                                  |
+| context   | no       | string           |         | points to the context of the machine with [dot notation](https://lodash.com/docs/4.17.15#get) |
+| not       | no       | boolean          |         | reverses the final comparison to define if the children will be rendered                      |
 
 The default comparison will use triple equal (===) to check between the finite or infinite state and the _value_ provided as a prop.
 If the result is true, the children of the component will be rendered, otherwise, the _fallback_ prop. If fallback does not exists, nothing will be rendered.

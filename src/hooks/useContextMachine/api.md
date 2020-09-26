@@ -4,6 +4,9 @@ Returns the machine info as **@xstate/react useMachine()**, from the closest _In
 
 ---
 
+Check **TUseContextMachine** to see the type/signature of the hook:
+[https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts](https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts)
+
 | Args | Required | Type   | Default | Description                                                  |
 | ---- | -------- | ------ | ------- | ------------------------------------------------------------ |
 | id   | no       | string |         | targets the machine by the id it was registered on Interpret |

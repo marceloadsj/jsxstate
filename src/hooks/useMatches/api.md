@@ -4,17 +4,19 @@ Works like the _Matches_ component, but returning a boolean so you can use it im
 
 ---
 
-| Prop      | Required | Type    | Default | Description                                                                                   |
+Check **TUseMatches** to see the type/signature of the hook:
+[https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts](https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts)
+
+| Args    | Required | Type           | Default | Description                                                             |
+| ------- | -------- | -------------- | ------- | ----------------------------------------------------------------------- |
+| value   | yes      | TMatchesValue  |         | compares the value prop against the state or the context of the machine |
+| options | no       | TMatchesShared |         | options as an object to configure the hook behavior                     |
+
+| options   | Required | Type    | Default | Description                                                                                   |
 | --------- | -------- | ------- | ------- | --------------------------------------------------------------------------------------------- |
-| value     | yes      | TValue  |         | compares the value prop against the state or the context of the machine                       |
 | machineId | no       | string  |         | targets the machine by the id it was registered on Interpret                                  |
 | context   | no       | string  |         | points to the context of the machine with [dot notation](https://lodash.com/docs/4.17.15#get) |
 | not       | no       | boolean |         | reverses the final comparison to return a inverse boolean                                     |
-| fallback  | no       | any     |         | returns the fallback value if the comparison returns false                                    |
-
-```typescript
-type TValue = string | ((state: TState) => any)
-```
 
 ### Examples:
 
@@ -37,7 +39,7 @@ function Parent() {
 
 // Boolean of state.value === "idle"
 function Child() {
-  const isIdle = useMatches({ value: 'idle' })
+  const isIdle = useMatches('idle')
 
   return /* ... */
 }
@@ -56,9 +58,8 @@ function Parent() {
 
 // The context prop can be used to target a state.context key
 function Child() {
-  const isSubscribed = useMatches({
-    context: 'user.subscribed',
-    value: true
+  const isNotSubscribed = useMatches(false, {
+    context: 'user.subscribed'
   })
 
   return /* ... */

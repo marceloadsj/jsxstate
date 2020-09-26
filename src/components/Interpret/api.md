@@ -4,16 +4,15 @@ Starts an XState machine and injects it into a React context to provide it to ot
 
 ---
 
-| Prop     | Required | Type         | Default    | Description                                                             |
-| -------- | -------- | ------------ | ---------- | ----------------------------------------------------------------------- |
-| children | yes      | TChildren    |            | renders the components or use a render prop function                    |
-| machine  | yes      | StateMachine |            | starts the provided machine and injects it into the context             |
-| options  | no       | object       |            | adds options like the second argument of **@xstate/react useMachine()** |
-| id       | no       | string       | machine.id | uses it instead of the _machine.id_ only for the React context          |
+Check **TInterpretProps** to see the type/signature of the Component:
+[https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts](https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts)
 
-```typescript
-type TChildren = ReactNode | (state: TState, send: TSend, service: TService): ReactNode
-```
+| Prop     | Required | Type               | Default    | Description                                                             |
+| -------- | -------- | ------------------ | ---------- | ----------------------------------------------------------------------- |
+| children | yes      | TInterpretChildren |            | renders the components or use a render prop function                    |
+| machine  | yes      | StateMachine       |            | starts the provided machine and injects it into the context             |
+| options  | no       | object             |            | adds options like the second argument of **@xstate/react useMachine()** |
+| id       | no       | string             | machine.id | uses it instead of the _machine.id_ only for the React context          |
 
 Behind the scenes, _Interpret_ uses the **@xstate/react useMachine()** function to starts the machine.
 So, if you have questions about these props, just check the [**@xstate/react** docs](https://xstate.js.org/docs/packages/xstate-react/#quick-start).

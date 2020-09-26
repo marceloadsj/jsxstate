@@ -4,25 +4,15 @@ Renders a tag, as button being the default one, enhancing specific props to trig
 
 ---
 
+Check **TSendProps** to see the type/signature of the Component:
+[https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts](https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts)
+
 | Prop            | Required | Type         | Default | Description                                                                                             |
 | --------------- | -------- | ------------ | ------- | ------------------------------------------------------------------------------------------------------- |
-| machineId       | no       | string       |         | targets the machine by the id it was registered on Interpret                                            |
 | as              | no       | ReactElement | button  | renders the specific tag, can be even another React component                                           |
-| event listeners | no       | TType        |         | abstracts the creation of the send event direct on those props                                          |
-| dom attributes  | no       | TValue       |         | points a prop to the context of a machine accepting [dot notation](https://lodash.com/docs/4.17.15#get) |
-
-```typescript
-type TType =
-  | string
-  | { [key: string]: any }
-  | ((
-      event: SyntheticEvent,
-      state: TState,
-      send: TSend
-    ) => void | string | { [key: string]: any })
-
-type TValue = string | ((state: TState) => any)
-```
+| machineId       | no       | string       |         | targets the machine by the id it was registered on Interpret                                            |
+| event listeners | no       | Events       |         | abstracts the creation of the send event direct on those props                                          |
+| dom attributes  | no       | Attributes   |         | points a prop to the context of a machine accepting [dot notation](https://lodash.com/docs/4.17.15#get) |
 
 **Events:** onClick, onChange, onKeyDown, onSubmit, onMouseDown...
 **Attributes:** value, checked...
