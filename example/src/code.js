@@ -1,14 +1,14 @@
 export default `/*
-All jsxstate components and hooks are available
-CSS classes available: tailwind css classes https://tailwindcss.com/
+Available in the global scope:
+- jsxstate components and hooks
+- XState functions
+- Tailwind CSS default classes
+- classnames utility function
 */
 
-const machine = Machine({
-  id: "light",
+const trafficLightMachine = Machine({
+  id: "trafficLight",
   initial: "red",
-  context: {
-    steps: 10,
-  },
   states: {
     red: {
       after: { 3000: "yellow" },
@@ -21,7 +21,7 @@ const machine = Machine({
     },
     stopped: {
       on: {
-        RESUME: "red",
+        PLAY: "red",
       },
     },
   },
@@ -30,56 +30,94 @@ const machine = Machine({
   },
 });
 
-function Light({ color, active }) {
-  const className = classnames(
-    "w-20 h-20 rounded-full flex items-center justify-center",
-    color,
-  );
+// Light
+const lightClass =
+  "flex items-center justify-center w-20 h-20 font-bold text-white duration-300 transform rounded-full";
 
-  return <div className={className}>{active && <Value />}</div>;
+function Light({ value, className }) {
+  return (
+    <Matches value={value}>
+      {(active) => (
+        <div
+          className={classnames(
+            lightClass,
+            className,
+            active ? "border-4" : "scale-75 border-2 opacity-50"
+          )}
+        >
+          {active && <Value parse={(value) => value.toUpperCase()} />}
+        </div>
+      )}
+    </Matches>
+  );
 }
 
-function Component() {
+// LightList
+const lightListClass =
+  "flex flex-col p-5 space-y-10 bg-gray-800 border-4 border-gray-900 rounded";
+
+function LightList() {
   return (
-    <Interpret machine={machine}>
-      <div className="flex items-center space-x-10">
-        <div className="inline-block p-5 space-y-10 bg-gray-800 rounded">
-          <Matches value="red" fallback={<Light color="bg-red-800" />}>
-            <Light color="bg-red-500" active />
-          </Matches>
+    <div className={lightListClass}>
+      <Light value="red" className="bg-red-500 border-red-300" />
 
-          <Matches value="yellow" fallback={<Light color="bg-yellow-800" />}>
-            <Light color="bg-yellow-500" active />
-          </Matches>
+      <Light value="yellow" className="bg-yellow-500 border-yellow-300" />
 
-          <Matches value="green" fallback={<Light color="bg-green-800" />}>
-            <Light color="bg-green-500" active />
+      <Light value="green" className="bg-green-500 border-green-300" />
+    </div>
+  );
+}
+
+// Button
+const buttonClass =
+  "px-10 py-3 text-white transition duration-300 rounded-full focus:outline-none focus:shadow-outline";
+
+function Button({ className, ...props }) {
+  return <button {...props} className={classnames(buttonClass, className)} />;
+}
+
+// TrafficLight
+const trafficLightClass = "flex flex-col items-center w-20 mx-auto";
+
+const stickClass = "w-1/2 h-40 bg-gray-900";
+
+const baseClass = "w-24 h-3 bg-black rounded-full";
+
+function TrafficLight() {
+  return (
+    <Interpret machine={trafficLightMachine}>
+      <div className={trafficLightClass}>
+        <LightList />
+
+        <div className={stickClass} />
+
+        <div className={baseClass} />
+
+        <div className="mt-10">
+          <Matches
+            value="stopped"
+            fallback={
+              <Send
+                as={Button}
+                onClick="STOP"
+                className="bg-blue-500 hover:bg-blue-400"
+              >
+                Stop
+              </Send>
+            }
+          >
+            <Send
+              as={Button}
+              onClick="PLAY"
+              className="bg-purple-500 hover:bg-purple-400"
+            >
+              Play
+            </Send>
           </Matches>
         </div>
-
-        <Matches
-          value="stopped"
-          fallback={
-            <Send
-              as="button"
-              onClick="STOP"
-              className="px-3 py-2 text-white bg-blue-500 rounded"
-            >
-              Stop
-            </Send>
-          }
-        >
-          <Send
-            as="button"
-            onClick="RESUME"
-            className="px-3 py-2 text-white bg-purple-500 rounded"
-          >
-            Resume
-          </Send>
-        </Matches>
       </div>
     </Interpret>
   );
 }
 
-render(Component);`
+render(TrafficLight);`
