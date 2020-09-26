@@ -38,7 +38,7 @@ const Interpret: FC<TInterpretProps> = ({ machine, options, id, children }) => {
   let parsedChildren = children
 
   if (typeof children === 'function') {
-    parsedChildren = children(...currentMachine)
+    parsedChildren = (children as any)(...currentMachine)
   }
 
   return (

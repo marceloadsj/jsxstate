@@ -1,63 +1,29 @@
-import { ReactNode, SyntheticEvent } from 'react'
+import { ReactNode, SyntheticEvent, ReactElement } from 'react'
 import { StateMachine, Interpreter, State } from 'xstate'
 
 // XState
 export type TState = State<any, any, any, any>
-
-export type TInterpreter = Interpreter<any, any, any, any>
-
 export type TSend = TInterpreter['send']
-
-export type TUseMachineReturn = [TState, TSend, TInterpreter]
+type TInterpreter = Interpreter<any, any, any, any>
+type TUseMachineReturn = [TState, TSend, TInterpreter]
 
 // Common
-export type TObject = { [key: string]: any }
+type TFallback = ReactNode | ((state: TState) => ReactNode)
+type TEvent = (event?: SyntheticEvent) => void
 
-// Shared
-export type TMatchesShared = {
-  value: string | ((value: any, state: TState) => boolean)
-  machineId?: string
-  context?: string
-  not?: boolean
-}
-
-export type TSendShared = {
-  machineId?: string
-}
-
-export type TValueShared = {
-  machineId?: string
-  context?: string
-  parse?: (value: any, state: TState) => ReactNode
-}
-
-// Args
-export type TChildrenArg =
+// Interpret
+type TInterpretChildren =
   | ReactNode
-  | ((matches: boolean, state: TState) => ReactNode)
+  | ((state: TState, send: TSend, service: TInterpreter) => ReactNode)
 
-export type TFallbackArg = ReactNode | ((state: TState) => ReactNode)
-
-export type TEventArg = (event?: SyntheticEvent) => void
-
-export type TTypeArg =
-  | string
-  | TObject
-  | ((
-      event: SyntheticEvent | undefined,
-      state: TState,
-      send: TSend
-    ) => void | string | TObject)
-
-export type TValueArg = string | ((state: TState) => any)
-
-// Components
 export type TInterpretProps = {
+  children: TInterpretChildren
   machine: StateMachine<any, any, any, any>
   options?: any
   id?: string
 }
 
+// MachineContext
 export type TMachineContext = {
   ref: {
     current: TUseMachineReturn
@@ -68,51 +34,94 @@ export type TMachineContext = {
   }
 }
 
+// useContextMachine
+export type TUseContextMachine = (id?: string) => TUseMachineReturn | undefined
+
+// Matches & useMatches
+type TMatchesShared = {
+  machineId?: string
+  context?: string
+  not?: boolean
+}
+
+type TMatchesValue = string | ((value: any, state: TState) => boolean)
+
+type TMatchesChildren =
+  | ReactNode
+  | ((matches: boolean, state: TState) => ReactNode)
+
 export type TMatchesProps = TMatchesShared & {
-  children?: TChildrenArg
-  fallback?: TFallbackArg
+  value: TMatchesValue
+  children?: TMatchesChildren
+  fallback?: TFallback
+}
+
+export type TUseMatches = (
+  value: TMatchesValue,
+  options?: TMatchesShared
+) => boolean
+
+// Send & useSend
+type TSendShared = {
+  machineId?: string
 }
 
 export type TSendProps = TSendShared & {
-  as?: any
+  as?: ReactElement
   children?: ReactNode
   [key: string]: any
 }
 
-export type TValueProps = TValueShared & {
-  children?: TChildrenArg
-  fallback?: TFallbackArg
+type TObject = { [key: string]: any }
+
+type TType =
+  | string
+  | TObject
+  | ((
+      event: SyntheticEvent | undefined,
+      state: TState,
+      send: TSend
+    ) => void | string | TObject)
+
+export type TUseSend = (
+  type: TType,
+  options?: TSendShared
+) => TEvent | undefined
+
+// Value & useValue
+type TParseArg = (value: any, state: TState) => ReactNode
+
+export type TValueShared = {
+  machineId?: string
+  context?: string
+  parse?: TParseArg
 }
 
-// Hooks
-export type TUseContextMachine = (id?: string) => TUseMachineReturn | undefined
+type TValueChildren = ReactNode | TParseArg
 
-export type TUseMatches = (
-  args: TMatchesShared & {
-    fallback?: any
-  }
-) => boolean
+export type TValueProps = TValueShared & {
+  children?: TValueChildren
+  fallback?: TFallback
+}
 
-export type TUseSend = (type: TTypeArg, options?: TSendShared) => TEventArg
+type TValueOptions = TValueShared & {
+  fallback?: any
+}
 
-export type TUseValue = (
-  args: TValueShared & {
-    fallback?: any
-  }
-) => any
+export type TUseValue = (options: TValueOptions) => any
 
 // Utilities
-export type TTravel = (obj: any, path: string, regExp: RegExp) => any
+export type TGetResult = (value: any, path: string, regExp: RegExp) => any
 
-export type TGet = (obj: any, path: string, fallback?: any) => any
+export type TGet = (value: any, path: string, fallback?: any) => any
 
 export type TGetEventListener = (args: {
   state: TState
   send: TSend
-  type: TTypeArg
-}) => TEventArg
+  type: TType
+}) => TEvent
 
 export type TGetAttributeValue = (args: {
   state: TState
-  value: TValueArg
+  value: string | ((state: TState) => any)
 }) => any

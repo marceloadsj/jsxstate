@@ -12,7 +12,7 @@ const Matches: FC<TMatchesProps> = ({
   children,
   fallback = null
 }) => {
-  const matches = useMatches({ machineId, context, not, value })
+  const matches = useMatches(value, { machineId, context, not })
 
   const [state] = useContextMachine(machineId) || []
 

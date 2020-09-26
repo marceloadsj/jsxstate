@@ -164,7 +164,7 @@ describe('getAttributeValue', () => {
 
     let result
 
-    const value = (state: string) => {
+    const value = (state: TState) => {
       result = state
     }
 

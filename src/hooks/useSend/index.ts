@@ -2,19 +2,17 @@ import { useMemo } from 'react'
 
 import { TUseSend } from '../../types'
 import useContextMachine from '../useContextMachine'
-import { getEventListener, noop } from '../../utils'
+import { getEventListener } from '../../utils'
 
 const useSend: TUseSend = (type, { machineId } = {}) => {
   const context = useContextMachine(machineId)
 
   return useMemo(() => {
-    if (context) {
-      const [state, send] = context
+    if (!context) return undefined
 
-      return getEventListener({ state, send, type })
-    }
+    const [state, send] = context
 
-    return noop
+    return getEventListener({ state, send, type })
   }, [context, type])
 }
 

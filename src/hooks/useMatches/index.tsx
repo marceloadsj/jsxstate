@@ -2,7 +2,7 @@ import { get } from '../../utils'
 import useContextMachine from '../useContextMachine'
 import { TUseMatches } from '../../types'
 
-const useMatches: TUseMatches = ({ machineId, context, not, value }) => {
+const useMatches: TUseMatches = (value, { machineId, context, not } = {}) => {
   const [state] = useContextMachine(machineId) || []
 
   if (state) {

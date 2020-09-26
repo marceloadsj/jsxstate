@@ -1,25 +1,30 @@
-import { TTravel, TGet, TGetEventListener, TGetAttributeValue } from '../types'
+import {
+  TGetResult,
+  TGet,
+  TGetEventListener,
+  TGetAttributeValue
+} from '../types'
 
 const leftRegExp = /[,[\]]+?/
 const rightRegExp = /[,[\].]+?/
 
-const travel: TTravel = (obj, path, regExp) => {
-  return String.prototype.split
-    .call(path, regExp)
+const getResult: TGetResult = (value, path, regExp) => {
+  return path
+    .split(regExp)
     .filter(Boolean)
     .reduce((result, key) => {
       return result === undefined ? result : result[key]
-    }, obj)
+    }, value)
 }
 
-export const get: TGet = (obj, path, fallback) => {
-  let result = travel(obj, path, leftRegExp)
+export const get: TGet = (value, path, fallback) => {
+  let result = getResult(value, path, leftRegExp)
 
   if (result === undefined) {
-    result = travel(obj, path, rightRegExp)
+    result = getResult(value, path, rightRegExp)
   }
 
-  if (result === undefined || result === obj) return fallback
+  if (result === undefined || result === value) return fallback
 
   return result
 }
@@ -55,5 +60,3 @@ export const getAttributeValue: TGetAttributeValue = ({ state, value }) => {
     return value(state)
   }
 }
-
-export const noop = () => undefined
