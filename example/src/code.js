@@ -45,7 +45,7 @@ function Light({ value, className }) {
             active ? "border-4" : "scale-75 border-2 opacity-50"
           )}
         >
-          {active && <Value parse={(value) => value.toUpperCase()} />}
+          {active && <Value>{(value) => value.toUpperCase()}</Value>}
         </div>
       )}
     </Matches>
