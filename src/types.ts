@@ -1,4 +1,4 @@
-import { ReactNode, SyntheticEvent, ReactElement } from 'react'
+import { ReactNode, SyntheticEvent } from 'react'
 import { StateMachine, Interpreter, State } from 'xstate'
 
 // XState
@@ -67,7 +67,7 @@ type TSendShared = {
 }
 
 export type TSendProps = TSendShared & {
-  as?: ReactElement
+  as?: any
   children?: ReactNode
   [key: string]: any
 }
@@ -89,31 +89,27 @@ export type TUseSend = (
 ) => TEvent | undefined
 
 // Value & useValue
-type TParseArg = (value: any, state: TState) => ReactNode
-
-export type TValueShared = {
+type TValueShared = {
   machineId?: string
   context?: string
-  parse?: TParseArg
 }
-
-type TValueChildren = ReactNode | TParseArg
 
 export type TValueProps = TValueShared & {
-  children?: TValueChildren
-  fallback?: TFallback
+  children?: (value: any, state: TState) => ReactNode
+  fallback?: ReactNode | ((state: TState) => ReactNode)
 }
 
-type TValueOptions = TValueShared & {
-  fallback?: any
-}
-
-export type TUseValue = (options: TValueOptions) => any
+export type TUseValue = (
+  options?: TValueShared & {
+    parse?: (value: any, state: TState) => any
+    fallback?: any | ((state: TState) => any)
+  }
+) => any
 
 // Utilities
 export type TGetResult = (value: any, path: string, regExp: RegExp) => any
 
-export type TGet = (value: any, path: string, fallback?: any) => any
+export type TGet = (value: any, path: string) => any
 
 export type TGetEventListener = (args: {
   state: TState

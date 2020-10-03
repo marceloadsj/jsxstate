@@ -1,102 +1,118 @@
 ## `<Value />`
 
-Renders the machine finite (state.value) or infinite (state.context) data into the screen.
+Renders the machine finite (state.value) or infinite (state.context)
 
 ---
 
 Check **TValueProps** to see the type/signature of the Component:
 [https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts](https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts)
 
-| Prop      | Required | Type           | Default | Description                                                                                   |
-| --------- | -------- | -------------- | ------- | --------------------------------------------------------------------------------------------- |
-| children  | no       | TValueChildren |         | renders the components or use a render prop function                                          |
-| fallback  | no       | TFallback      | null    | renders the fallback value if none (undefined) was found                                      |
-| machineId | no       | string         |         | targets the machine by the id it was registered on Interpret                                  |
-| context   | no       | string         |         | points to the context of the machine with [dot notation](https://lodash.com/docs/4.17.15#get) |
-| parse     | no       | TParse         |         | parses the value and return what will be rendered                                             |
-
-It renders the value it finds inside the machine, being the finite or infinite state. The parse function will be run before the render occurs.
+| Prop      | Required | Type                                        | Default | Description                                                  |
+| --------- | -------- | ------------------------------------------- | ------- | ------------------------------------------------------------ |
+| machineId | no       | string                                      |         | targets the machine by the id it was registered on Interpret |
+| context   | no       | string                                      |         | points to the context of the machine with dot notation       |
+| children  | no       | (value: any, state: TState) => ReactNode    |         | parses the value before render it to the screen              |
+| fallback  | no       | ReactNode OR ((state: TState) => ReactNode) | null    | renders the fallback value if none (undefined) was found     |
 
 ### Examples:
 
 ```jsx
-const userMachine = Machine(/* ... */)
+const myMachine = Machine({
+  context: {
+    message: 'Context Message',
+    errors: [
+      {
+        message: 'Error Message'
+      }
+    ]
+  },
+  initial: 'idle',
+  states: {
+    idle: {}
+  }
+})
 
-// It will render the state.value. If it is an object, it will render the string version of it (like "red.walk")
-function Component() {
+// you can render the string of the current state: "idle"
+function Example1() {
   return (
-    <Interpret machine={userMachine}>
+    <Interpret machine={myMachine}>
       <Value />
     </Interpret>
   )
 }
-```
 
-```jsx
-const userMachine = Machine(/* ... */)
-
-// It will render the state.context.messages.error
-function Component() {
+// you can parse the state before render it: "IDLE"
+function Example2() {
   return (
-    <Interpret machine={userMachine}>
-      <Value context='messages.error' />
+    <Interpret machine={myMachine}>
+      <Value>{(value) => value.toUpperCase()}</Value>
     </Interpret>
   )
 }
-```
 
-```jsx
-const userMachine = Machine({
-  context: {
-    messages: [{ error: 'Error Message' }]
+// instead of the state, you can point to the context: "Context Message"
+function Example3() {
+  return (
+    <Interpret machine={myMachine}>
+      <Value context='messages' />
+    </Interpret>
+  )
+}
+
+// you can use dot notation to get context values: "Error Message"
+function Example4() {
+  return (
+    <Interpret machine={myMachine}>
+      <Value context='errors[0].message' />
+    </Interpret>
+  )
+}
+
+// and, of course, parse the context before showing on the screen: "ERROR MESSAGE"
+function Example5() {
+  return (
+    <Interpret machine={myMachine}>
+      <Value context='errors[0].message'>
+        {(value) => value.toUpperCase()}
+      </Value>
+    </Interpret>
+  )
+}
+
+// a fallback can be passed down to be rendered when undefined value is found: "Fallback"
+function Example6() {
+  return (
+    <Interpret machine={myMachine}>
+      <Value context='missing.key' fallback='Fallback' />
+    </Interpret>
+  )
+}
+
+// with multiple nested machines, you can use machineId to point to the right one: "running" from yourMachine
+const yourMachine = Machine({
+  id: 'your',
+  initial: 'running',
+  state: {
+    running: {}
   }
-  /* ... */
 })
 
-// You can read from arrays as well using the following notation
-function Component() {
+function Example7() {
   return (
-    <Interpret machine={userMachine}>
-      <Value context='messages[0].error' />
+    <Interpret machine={yourMachine}>
+      <Interpret machine={myMachine}>
+        <Value machineId='your' />
+      </Interpret>
     </Interpret>
   )
 }
-```
 
-```jsx
-const counterMachine = Machine(/* ... */)
-
-// You receive the searched value and the entire state as args of parse
-function Component() {
+// do not forget, without machineId the closest machine will be used: "idle" from myMachine
+function Example8() {
   return (
-    <Interpret machine={counterMachine}>
-      <Value context='count' parse={(count, state) => count * 2} />
-    </Interpret>
-  )
-}
-```
-
-```jsx
-// To render a fallback if no value is found (undefined), use the fallback prop
-function Component() {
-  return (
-    <Interpret machine={userMachine}>
-      <Value context='wrong.key' fallback='I will be rendered' />
-    </Interpret>
-  )
-}
-```
-
-```jsx
-const userMachine = Machine({ id: 'user' /* ... */ })
-const counterMachine = Machine({ id: 'counter' /* ... */ })
-
-// To target another machine on the same React context, use the machineId prop
-function Component() {
-  return (
-    <Interpret machine={userMachine}>
-      <Interpret machine={counterMachine}>
-        <Value machineId='user' />
+    <Interpret machine={yourMachine}>
+      <Interpret machine={myMachine}>
+        <Value />
       </Interpret>
     </Interpret>
   )

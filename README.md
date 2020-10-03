@@ -91,7 +91,7 @@ export default function Light() {
     <Interpret machine={lightMachine}>
       State: <Value />
       <br />
-      Parsed State: <Value parse={(value) => value.toUpperCase()} />
+      Parsed State: <Value>{(value) => value.toUpperCase()}</Value>
     </Interpret>
   )
 }
@@ -156,12 +156,12 @@ Version 1
 - [x] Basic components (Interpret, Value, Send, Matches)
 - [x] Tests for all components
 - [x] Documentation for all components
-- [x] Targeting machines by configurable id/machine id on components
+- [x] Targeting machines by configurable id/machineId on components
 - [x] Basic hooks (useContextMachine, useValue, useSend, useMatches)
 - [ ] Tests for all hooks
 - [x] Documentation for all hooks
-- [x] Targeting machines by configurable id/machine id on hooks
-- [x] Everything written in Typescript
+- [x] Targeting machines by configurable id/machineId on hooks
+- [x] Everything written in Typescript (appart of the example/playground)
 
 ---
 

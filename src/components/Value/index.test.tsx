@@ -1,10 +1,9 @@
 import React from 'react'
 import { screen } from '@testing-library/react'
-import { Machine } from 'xstate'
 
-import { render } from '../../../testUtils'
-import Interpret from '../Interpret'
+import { renderWithMachine } from '../../../testUtils'
 import Value from '.'
+import { TState } from '../../types'
 
 describe('Value', () => {
   it('is truthy', () => {
@@ -12,212 +11,97 @@ describe('Value', () => {
   })
 })
 
-describe('Value children', () => {
-  test('renders the children value', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      states: {
-        idle: {}
-      }
-    })
-
-    render(
-      <Interpret machine={testMachine}>
-        <Value>{() => 'Test Message'}</Value>
-      </Interpret>
-    )
-
-    expect(screen.getByText('Test Message')).toBeInTheDocument()
-  })
-
-  test('renders the children value', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      states: {
-        idle: {}
-      }
-    })
-
-    render(
-      <Interpret machine={testMachine}>
-        <Value>{(value: string) => value.toUpperCase()}</Value>
-      </Interpret>
-    )
-
-    expect(screen.getByText('IDLE')).toBeInTheDocument()
-  })
-})
-
 describe('Value state', () => {
-  test('renders the state value', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      states: {
-        idle: {}
-      }
-    })
-
-    render(
-      <Interpret machine={testMachine}>
-        <Value />
-      </Interpret>
-    )
+  it('renders the state value', () => {
+    renderWithMachine(<Value />)
 
     expect(screen.getByText('idle')).toBeInTheDocument()
   })
 })
 
 describe('Value context', () => {
-  test('renders a context value', () => {
-    const testMachine = Machine({
-      id: 'test',
-      context: {
-        message: 'Test Message'
-      },
-      initial: 'idle',
-      states: {
-        idle: {}
-      }
-    })
+  it('renders a context value by key', () => {
+    renderWithMachine(<Value context='message' />)
 
-    render(
-      <Interpret machine={testMachine}>
-        <Value context='message' />
-      </Interpret>
-    )
-
-    expect(screen.getByText('Test Message')).toBeInTheDocument()
+    expect(screen.getByText('Context Message')).toBeInTheDocument()
   })
 
-  test('renders a deep context value', () => {
-    const testMachine = Machine({
-      id: 'test',
-      context: {
-        message: {
-          errors: [{ text: 'Test Message' }]
-        }
-      },
-      initial: 'idle',
-      states: {
-        idle: {}
-      }
-    })
+  it('renders a deep context value by key', () => {
+    renderWithMachine(<Value context='nested.list[0].message' />)
 
-    render(
-      <Interpret machine={testMachine}>
-        <Value context='message.errors[0].text' />
-      </Interpret>
-    )
-
-    expect(screen.getByText('Test Message')).toBeInTheDocument()
+    expect(screen.getByText('Nested Context Message')).toBeInTheDocument()
   })
 })
 
-describe('Value parse', () => {
-  test('renders the parsed result', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      states: {
-        idle: {}
-      }
-    })
+describe('Value children', () => {
+  it('renders the return of children as function', () => {
+    renderWithMachine(<Value>{() => 'Children'}</Value>)
 
-    render(
-      <Interpret machine={testMachine}>
-        <Value parse={() => 'Test Message'} />
-      </Interpret>
-    )
-
-    expect(screen.getByText('Test Message')).toBeInTheDocument()
+    expect(screen.getByText('Children')).toBeInTheDocument()
   })
 
-  test('renders the parsed state', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      states: {
-        idle: {}
-      }
-    })
-
-    render(
-      <Interpret machine={testMachine}>
-        <Value parse={(value) => value.toUpperCase()} />
-      </Interpret>
-    )
+  it('renders the parsed return of children as function', () => {
+    renderWithMachine(<Value>{(value) => value.toUpperCase()}</Value>)
 
     expect(screen.getByText('IDLE')).toBeInTheDocument()
   })
 
-  test('renders the parsed context', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      context: {
-        message: 'test message'
-      },
-      states: {
-        idle: {}
-      }
-    })
-
-    render(
-      <Interpret machine={testMachine}>
-        <Value context='message' parse={(value) => value.toUpperCase()} />
-      </Interpret>
+  it('renders the parsed context returned of children as function', () => {
+    renderWithMachine(
+      <Value context='message'>{(value) => value.toUpperCase()}</Value>
     )
 
-    expect(screen.getByText('TEST MESSAGE')).toBeInTheDocument()
+    expect(screen.getByText('CONTEXT MESSAGE')).toBeInTheDocument()
   })
 
-  test('renders the parsed deep context', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      context: {
-        message: {
-          errors: [{ text: 'Test Message' }]
-        }
-      },
-      states: {
-        idle: {}
-      }
-    })
-
-    render(
-      <Interpret machine={testMachine}>
-        <Value
-          context='message.errors[0].text'
-          parse={(value) => value.toUpperCase()}
-        />
-      </Interpret>
+  it('renders the parsed deep context returned of children as function', () => {
+    renderWithMachine(
+      <Value context='nested.list[0].message'>
+        {(value) => value.toUpperCase()}
+      </Value>
     )
 
-    expect(screen.getByText('TEST MESSAGE')).toBeInTheDocument()
+    expect(screen.getByText('NESTED CONTEXT MESSAGE')).toBeInTheDocument()
   })
 })
 
 describe('Value fallback', () => {
-  test('renders the fallback', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      context: {},
-      states: {
-        idle: {}
-      }
-    })
+  it('renders the fallback value when context is undefined', () => {
+    renderWithMachine(<Value context='missing' fallback='Fallback' />)
 
-    render(
-      <Interpret machine={testMachine}>
-        <Value context='wrong.key' fallback='Test Message' />
-      </Interpret>
+    expect(screen.getByText('Fallback')).toBeInTheDocument()
+  })
+
+  it('renders the fallback value when deep context is undefined', () => {
+    renderWithMachine(
+      <Value context='missing.nested.key' fallback='Fallback' />
     )
 
-    expect(screen.getByText('Test Message')).toBeInTheDocument()
+    expect(screen.getByText('Fallback')).toBeInTheDocument()
+  })
+
+  it('renders the return of fallback as function when context is undefined', () => {
+    renderWithMachine(<Value context='missing' fallback={() => 'Fallback'} />)
+
+    expect(screen.getByText('Fallback')).toBeInTheDocument()
+  })
+
+  it('renders the return of fallback as function when deep context is undefined', () => {
+    renderWithMachine(
+      <Value context='missing.deep.key' fallback={() => 'Fallback'} />
+    )
+
+    expect(screen.getByText('Fallback')).toBeInTheDocument()
+  })
+
+  it('renders the result of fallback as function receiving state as param', () => {
+    renderWithMachine(
+      <Value
+        context='missing.deep.key'
+        fallback={(state: TState) => state.value}
+      />
+    )
+
+    expect(screen.getByText('idle')).toBeInTheDocument()
   })
 })

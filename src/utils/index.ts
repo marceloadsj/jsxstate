@@ -12,21 +12,17 @@ const getResult: TGetResult = (value, path, regExp) => {
   return path
     .split(regExp)
     .filter(Boolean)
-    .reduce((result, key) => {
-      return result === undefined ? result : result[key]
-    }, value)
+    .reduce((result, key) => result?.[key], value)
 }
 
-export const get: TGet = (value, path, fallback) => {
+export const get: TGet = (value, path) => {
   let result = getResult(value, path, leftRegExp)
 
   if (result === undefined) {
     result = getResult(value, path, rightRegExp)
   }
 
-  if (result === undefined || result === value) return fallback
-
-  return result
+  return result === value ? undefined : result
 }
 
 export const getEventListener: TGetEventListener = ({ state, send, type }) => {

@@ -7,29 +7,29 @@ import useContextMachine from '../../hooks/useContextMachine'
 const Value: FC<TValueProps> = ({
   machineId,
   context,
-  parse,
   children,
   fallback = null
 }) => {
+  // the children as function acts like parse on hooks
+  let parse: any
+
+  if (typeof children === 'function') {
+    parse = children
+  }
+
+  // gets the value with right params
   const value = useValue({ machineId, context, parse, fallback })
 
+  // when value is a nested state object, we use the string version
   const [state] = useContextMachine(machineId) || []
 
-  if (value === undefined) {
-    // Execute the fallback as function or just render it
-    if (typeof fallback === 'function') {
-      return fallback(state)
-    }
+  let parsedValue = value
 
-    return fallback
+  if (state && !context && typeof value === 'object') {
+    parsedValue = state.toStrings().pop()
   }
 
-  // If children is a function, we execute it with the value and state
-  if (typeof children === 'function') {
-    return (children as any)(value, state)
-  }
-
-  return value
+  return parsedValue
 }
 
 export default Value
