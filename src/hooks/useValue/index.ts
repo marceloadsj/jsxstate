@@ -7,7 +7,9 @@ const useValue: TUseValue = ({ machineId, context, parse, fallback } = {}) => {
 
   if (!state) {
     throw new Error(
-      'The useValue hook should be used on a component bellow an Interpret context'
+      machineId
+        ? `The useValue hook/Value component should be used on a component below an Interpret context with machine with id as ${machineId}`
+        : 'The useValue hook/Value component should be used on a component below an Interpret context'
     )
   }
 
