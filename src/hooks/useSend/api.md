@@ -1,19 +1,15 @@
 ### `useSend`
 
-Works like the _Send_ component, but returning a function to send the event.
+Returns a function to send an event to the machine
 
 ---
 
 Check **TUseSend** to see the type/signature of the hook:
 [https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts](https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts)
 
-| Args    | Required | Type        | Default | Description                                         |
-| ------- | -------- | ----------- | ------- | --------------------------------------------------- |
-| event   | yes      | TType       |         | sends the event configured by that argument         |
-| options | no       | TSendShared |         | options as an object to configure the hook behavior |
-
-| options   | Required | Type   | Default | Description                                                  |
+| Args      | Required | Type   | Default | Description                                                  |
 | --------- | -------- | ------ | ------- | ------------------------------------------------------------ |
+| type      | yes      | TType  |         | creates a function that sends the configured event           |
 | machineId | no       | string |         | targets the machine by the id it was registered on Interpret |
 
 ### Examples:

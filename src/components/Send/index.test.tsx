@@ -1,9 +1,7 @@
 import React, { FC } from 'react'
 import { screen } from '@testing-library/react'
-import { Machine } from 'xstate'
 
-import { render } from '../../../testUtils'
-import Interpret from '../Interpret'
+import { renderWithMachines } from '../../../testUtils'
 import Send from '.'
 
 describe('Send', () => {
@@ -12,175 +10,132 @@ describe('Send', () => {
   })
 })
 
-describe('Send children', () => {
-  test('renders the button', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      states: {
-        idle: {}
-      }
-    })
-
-    render(
-      <Interpret machine={testMachine}>
-        <Send data-testid='test'>Test Message</Send>
-      </Interpret>
-    )
-
-    expect(screen.getByTestId('test').tagName).toBe('BUTTON')
-  })
-
-  test('renders the button children', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      states: {
-        idle: {}
-      }
-    })
-
-    render(
-      <Interpret machine={testMachine}>
-        <Send data-testid='test'>Test Message</Send>
-      </Interpret>
-    )
-
-    expect(screen.getByText('Test Message')).toBeInTheDocument()
-  })
-})
-
-describe('Send as', () => {
-  test('renders other tags', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      states: {
-        idle: {}
-      }
-    })
-
-    render(
-      <Interpret machine={testMachine}>
-        <Send as='a' data-testid='test'>
-          Test Message
-        </Send>
-      </Interpret>
-    )
-
-    expect(screen.getByTestId('test').tagName).toBe('A')
-  })
-
-  test('renders even other React components', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      states: {
-        idle: {}
-      }
-    })
-
-    function Children(props) {
-      return <div {...props}>Test Message</div>
-    }
-
-    render(
-      <Interpret machine={testMachine}>
-        <Send as={Children} data-testid='test'>
-          Test Message
-        </Send>
-      </Interpret>
-    )
-
-    expect(screen.getByTestId('test').tagName).toBe('DIV')
-  })
-})
-
 describe('Send events', () => {
-  test('receives enhanced events from string', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      states: {
-        idle: {}
-      }
-    })
+  it('returns enhanced handler from event as string', () => {
+    const Button: FC<any> = ({ onClick }) => {
+      expect(onClick).toBeInstanceOf(Function)
 
-    let enhancedEvent
-
-    function Children({ onClick }) {
-      enhancedEvent = onClick
-
-      return <div>Test Message</div>
+      return null
     }
 
-    render(
-      <Interpret machine={testMachine}>
-        <Send as={Children} onClick='INC'>
-          Test Message
-        </Send>
-      </Interpret>
-    )
-
-    expect(enhancedEvent).toBeInstanceOf(Function)
+    renderWithMachines(<Send as={Button} onClick='LOGOUT' />)
   })
 
-  test('receives enhanced events from object', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      states: {
-        idle: {}
-      }
-    })
+  it('returns enhanced handler from event as string with machineId', () => {
+    const Button: FC<any> = ({ onClick }) => {
+      expect(onClick).toBeInstanceOf(Function)
 
-    let enhancedEvent
-
-    function Children({ onClick }) {
-      enhancedEvent = onClick
-
-      return <div>Test Message</div>
+      return null
     }
 
-    render(
-      <Interpret machine={testMachine}>
-        <Send as={Children} onClick={{ type: 'INC' }}>
-          Test Message
-        </Send>
-      </Interpret>
+    renderWithMachines(
+      <Send as={Button} onClick='INCREMENT' machineId='count' />
     )
+  })
 
-    expect(enhancedEvent).toBeInstanceOf(Function)
+  it('returns enhanced handler from event as object', () => {
+    const Button: FC<any> = ({ onClick }) => {
+      expect(onClick).toBeInstanceOf(Function)
+
+      return null
+    }
+
+    renderWithMachines(<Send as={Button} onClick={{ type: 'LOGOUT' }} />)
+  })
+
+  it('returns enhanced handler from event as object with machineId', () => {
+    const Button: FC<any> = ({ onClick }) => {
+      expect(onClick).toBeInstanceOf(Function)
+
+      return null
+    }
+
+    renderWithMachines(
+      <Send as={Button} onClick={{ type: 'INCREMENT' }} machineId='count' />
+    )
   })
 })
 
 describe('Send attributes', () => {
-  test('receives enhanced attributes from string', () => {
-    const testMachine = Machine({
-      id: 'test',
-      initial: 'idle',
-      context: {
-        name: 'Test Message'
-      },
-      states: {
-        idle: {}
-      }
-    })
+  it('returns enhanced value from context with attribute as string', () => {
+    const Button: FC<{ value: string }> = ({ value }) => {
+      expect(value).toBe('Marcelo Silva')
 
-    let enhancedEvent
-
-    const Children: FC<{ value: string }> = ({ value }) => {
-      enhancedEvent = value
-
-      return <div />
+      return null
     }
 
-    render(
-      <Interpret machine={testMachine}>
-        <Send as={Children} value='name' />
-      </Interpret>
+    renderWithMachines(<Send as={Button} value='name' />)
+  })
+
+  it('returns enhanced value from context with attribute as string with machineId', () => {
+    const Button: FC<{ value: string }> = ({ value }) => {
+      expect(value).toBe(0)
+
+      return null
+    }
+
+    renderWithMachines(<Send as={Button} value='value' machineId='count' />)
+  })
+
+  it('returns enhanced value from deep context with attribute as string', () => {
+    const Button: FC<{ value: string }> = ({ value }) => {
+      expect(value).toBe(1)
+
+      return null
+    }
+
+    renderWithMachines(<Send as={Button} value='languages[0].id' />)
+  })
+
+  it('returns enhanced value from deep context with attribute as string with machineId', () => {
+    const Button: FC<{ value: string }> = ({ value }) => {
+      expect(value).toBe(10)
+
+      return null
+    }
+
+    renderWithMachines(
+      <Send as={Button} value='increments.min[1]' machineId='count' />
+    )
+  })
+})
+
+describe('Send children', () => {
+  it('renders children', () => {
+    renderWithMachines(<Send data-testid='test'>Click Me</Send>)
+
+    expect(screen.getByText('Click Me')).toBeInTheDocument()
+  })
+
+  it('renders children with custom as', () => {
+    renderWithMachines(
+      <Send as='div' data-testid='test'>
+        Clickable Box
+      </Send>
     )
 
-    expect(enhancedEvent).toBe('Test Message')
+    expect(screen.getByText('Clickable Box')).toBeInTheDocument()
+  })
+})
+
+describe('Send as', () => {
+  it('renders default tag as button', () => {
+    renderWithMachines(<Send data-testid='test' />)
+
+    expect(screen.getByTestId('test').tagName).toBe('BUTTON')
+  })
+
+  it('renders custom tag', () => {
+    renderWithMachines(<Send as='span' data-testid='test' />)
+
+    expect(screen.getByTestId('test').tagName).toBe('SPAN')
+  })
+
+  it('renders react component', () => {
+    const Div: FC = () => <div data-testid='test' />
+
+    renderWithMachines(<Send as={Div} data-testid='test' />)
+
+    expect(screen.getByTestId('test').tagName).toBe('DIV')
   })
 })

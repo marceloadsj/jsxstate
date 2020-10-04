@@ -1,106 +1,119 @@
 ### `<Send />`
 
-Renders a tag, as button being the default one, enhancing specific props to trigger events on the machine.
+Renders a component enhancing event listeners to send events to the machine or dom attributes to map to machine's context
 
 ---
 
 Check **TSendProps** to see the type/signature of the Component:
 [https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts](https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts)
 
-| Prop            | Required | Type         | Default | Description                                                                                             |
-| --------------- | -------- | ------------ | ------- | ------------------------------------------------------------------------------------------------------- |
-| as              | no       | ReactElement | button  | renders the specific tag, can be even another React component                                           |
-| machineId       | no       | string       |         | targets the machine by the id it was registered on Interpret                                            |
-| event listeners | no       | Events       |         | abstracts the creation of the send event direct on those props                                          |
-| dom attributes  | no       | Attributes   |         | points a prop to the context of a machine accepting [dot notation](https://lodash.com/docs/4.17.15#get) |
-
-**Events:** onClick, onChange, onKeyDown, onSubmit, onMouseDown...
-**Attributes:** value, checked...
+| Prop            | Required | Type                  | Default | Description                                                      |
+| --------------- | -------- | --------------------- | ------- | ---------------------------------------------------------------- |
+| as              | no       | string \|\| ReactNode | button  | renders the specific tag, can be even another React component    |
+| event listeners | no       | Events                |         | abstracts the creation of the send event direct on those props   |
+| dom attributes  | no       | Attributes            |         | points a prop to the context of a machine accepting dot notation |
+| machineId       | no       | string                |         | targets the machine by the id it was registered on Interpret     |
 
 Check [this file](https://github.com/marceloadsj/jsxstate/blob/master/src/constants/index.tsx) for a complete list of the events and attributes
 
-The event listener props, like _onClick_, are enhanced events that can receive the same values as the **@xstate/react useMachine()** second item of the array, aka the send function.
+**Events Listeners:** onClick, onChange, onKeyDown, onSubmit, onMouseDown...
 
-The dom attributes props, like _value_ or _checked_, help you creating inputs that points to the machine context directly by its key described as dot notation.
+The event listener props are enhanced events that can receive the same values as the **@xstate/react useMachine() send** function.
+
+**DOM Attributes:** value, checked...
+
+The dom attributes props help you creating inputs that points to the machine context directly by its key described as dot notation.
 
 ### Examples:
 
 ```jsx
-const counterMachine = Machine(/* ... */)
-
-// You can pass a the event you want to trigger
-function Component() {
-  return (
-    <Interpret machine={counterMachine}>
-      <Send onClick='INC'>Increment</Send>
-    </Interpret>
-  )
-}
-```
-
-```jsx
-const counterMachine = Machine(/* ... */)
-
-// The event can be an object as well, accepting the payload info
-function Component() {
-  return (
-    <Interpret machine={counterMachine}>
-      <Send as='div' onClick={{ type: 'INC', amount: 2 }}>
-        Increment
-      </Send>
-    </Interpret>
-  )
-}
-```
-
-```jsx
-const counterMachine = Machine(/* ... */)
-
-// Or it could be a function receiving the DOM event, state and send
-function Component() {
-  return (
-    <Interpret machine={counterMachine}>
-      <Send onClick={(event, state, send) => send('INC')}>Increment</Send>
-    </Interpret>
-  )
-}
-```
-
-```jsx
-// Instead of triggering yourself, you can return the event to be triggered as string or object
-function Component() {
-  return (
-    <Interpret machine={counterMachine}>
-      <Send
-        onClick={(event, state, send) => {
-          return 'INC'
-        }}
-      >
-        Increment
-      </Send>
-    </Interpret>
-  )
-}
-```
-
-```jsx
-const counterMachine = Machine({
+const myMachine = Machine({
   context: {
-    incremementAmount: 1
+    count: {
+      value: 10
+    }
+  },
+  initial: 'idle',
+  states: {
+    idle: {
+      on: {
+        START: 'running'
+      }
+    },
+    running: {
+      on: {
+        STOP: 'idle'
+      }
+    }
+  },
+  on: {
+    SET_COUNT: {
+      actions: 'setCount'
+    }
   }
-  /* ... */
 })
 
-// You can render another tags as well, using another events and pointing some attributes to the context
-function Component() {
+// you can pass the event type to trigger the send onClick
+function Example1() {
   return (
-    <Interpret machine={counterMachine}>
+    <Interpret machine={myMachine}>
+      <Send onClick='START'>Start</Send>
+    </Interpret>
+  )
+}
+
+// the object schema is supported as well so you can add other attributes
+function Example2() {
+  return (
+    <Interpret machine={myMachine}>
+      <Send onClick={{ type: 'START', payload: 10 }}>Start</Send>
+    </Interpret>
+  )
+}
+
+// if you want to run other things, just use a function and return the event as string or object
+function Example3() {
+  return (
+    <Interpret machine={myMachine}>
       <Send
-        as='input'
-        type='number'
-        onChange='INC_VALUE'
-        value='incrementAmount'
-      />
+        onClick={(event) => {
+          event.stopPropagation()
+
+          return 'START'
+        }}
+      >
+        Start
+      </Send>
+    </Interpret>
+  )
+}
+
+// or use the received params to read from state or trigger events by yourself
+function Example4() {
+  return (
+    <Interpret machine={myMachine}>
+      <Send
+        onClick={(event, _state, send) => {
+          event.stopPropagation()
+
+          send('START')
+
+          setTimeout(() => {
+            send('STOP')
+          }, 5000)
+        }}
+      >
+        Start & Stop
+      </Send>
+    </Interpret>
+  )
+}
+
+// if you want to map to context, simply pass the context key on attribute as dot notation
+function Example5() {
+  return (
+    <Interpret machine={myMachine}>
+      <Send as='input' type='number' value='count.value' onChange='SET_COUNT' />
     </Interpret>
   )
 }

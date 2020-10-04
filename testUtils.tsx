@@ -30,7 +30,16 @@ function getUserMachine() {
     },
     initial: 'logged',
     states: {
-      logged: {}
+      logged: {
+        on: {
+          LOGOUT: 'guest'
+        }
+      },
+      guest: {
+        on: {
+          LOGIN: 'logged'
+        }
+      }
     }
   })
 }
@@ -47,7 +56,16 @@ function getCountMachine() {
     },
     initial: 'idle',
     states: {
-      idle: {}
+      idle: {
+        on: {
+          INCREMENT: 'changing'
+        }
+      },
+      changing: {
+        on: {
+          STOP: 'idle'
+        }
+      }
     }
   })
 }

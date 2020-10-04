@@ -1,4 +1,4 @@
-import { ReactNode, SyntheticEvent } from 'react'
+import { ReactNode, SyntheticEvent, ReactElement } from 'react'
 import { StateMachine, Interpreter, State } from 'xstate'
 
 // XState
@@ -9,7 +9,6 @@ type TUseMachineReturn = [TState, TSend, TInterpreter]
 
 // Common
 type TFallback = ReactNode | ((state: TState) => ReactNode)
-type TEvent = (event?: SyntheticEvent) => void
 
 // Interpret
 type TInterpretChildren =
@@ -62,31 +61,26 @@ export type TUseMatches = (
 ) => boolean
 
 // Send & useSend
-type TSendShared = {
-  machineId?: string
-}
-
-export type TSendProps = TSendShared & {
+export type TSendProps = {
   as?: any
   children?: ReactNode
+  machineId?: string
   [key: string]: any
 }
 
-type TObject = { [key: string]: any }
-
-type TType =
+export type TType =
   | string
-  | TObject
+  | { [key: string]: any }
   | ((
       event: SyntheticEvent | undefined,
       state: TState,
       send: TSend
-    ) => void | string | TObject)
+    ) => undefined | string | { [key: string]: any })
 
 export type TUseSend = (
   type: TType,
-  options?: TSendShared
-) => TEvent | undefined
+  machineId?: string
+) => ((event?: SyntheticEvent) => void) | undefined
 
 // Value & useValue
 type TValueShared = {
@@ -115,7 +109,7 @@ export type TGetEventListener = (args: {
   state: TState
   send: TSend
   type: TType
-}) => TEvent
+}) => (event?: SyntheticEvent) => void
 
 export type TGetAttributeValue = (args: {
   state: TState
