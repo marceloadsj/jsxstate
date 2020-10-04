@@ -13,10 +13,10 @@ Check **TUseValue** to see the type/signature of the hook:
 
 | options   | Required | Type                               | Default | Description                                                  |
 | --------- | -------- | ---------------------------------- | ------- | ------------------------------------------------------------ |
-| machineId | no       | string                             |         | targets the machine by the id it was registered on Interpret |
 | context   | no       | string                             |         | points to the context of the machine with dot notation       |
-| parse     | no       | (value: any, state: TState) => any |         | parses the value before return it                            |
 | fallback  | no       | any \|\| ((state: TState) => any)  |         | returns the fallback value if none (undefined) was found     |
+| machineId | no       | string                             |         | targets the machine by the id it was registered on Interpret |
+| parse     | no       | (value: any, state: TState) => any |         | parses the value before return it                            |
 
 ### Examples:
 
