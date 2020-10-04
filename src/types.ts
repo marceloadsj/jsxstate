@@ -1,4 +1,4 @@
-import { ReactNode, SyntheticEvent, ReactElement } from 'react'
+import { ReactNode, SyntheticEvent } from 'react'
 import { StateMachine, Interpreter, State } from 'xstate'
 
 // XState
