@@ -17,102 +17,73 @@ Check **TValueProps** to see the type/signature of the Component:
 ### Examples:
 
 ```jsx
-const myMachine = Machine({
+const authMachine = Machine({
+  id: 'auth',
   context: {
-    message: 'Context Message',
-    errors: [
+    user: {
+      name: 'Marcelo Silva'
+    }
+  },
+  initial: 'logged',
+  states: {
+    guest: {
+      on: {
+        LOGIN: 'logged'
+      }
+    },
+    logged: {
+      on: {
+        LOGOUT: 'guest'
+      }
+    }
+  }
+})
+
+const counterMachine = Machine({
+  id: 'counter',
+  context: {
+    value: 0,
+    increments: [
       {
-        message: 'Error Message'
+        min: 1,
+        max: 10
+      },
+      {
+        min: 2,
+        max: 20
       }
     ]
   },
   initial: 'idle',
-  states: {
+  state: {
     idle: {}
   }
 })
 
-// you can render the string of the current state: "idle"
-function Example1() {
+function Examples() {
   return (
-    <Interpret machine={myMachine}>
-      <Value />
-    </Interpret>
-  )
-}
-
-// you can parse the state before render it: "IDLE"
-function Example2() {
-  return (
-    <Interpret machine={myMachine}>
-      <Value>{(value) => value.toUpperCase()}</Value>
-    </Interpret>
-  )
-}
-
-// instead of the state, you can point to the context: "Context Message"
-function Example3() {
-  return (
-    <Interpret machine={myMachine}>
-      <Value context='messages' />
-    </Interpret>
-  )
-}
-
-// you can use dot notation to get context values: "Error Message"
-function Example4() {
-  return (
-    <Interpret machine={myMachine}>
-      <Value context='errors[0].message' />
-    </Interpret>
-  )
-}
-
-// and, of course, parse the context before showing on the screen: "ERROR MESSAGE"
-function Example5() {
-  return (
-    <Interpret machine={myMachine}>
-      <Value context='errors[0].message'>
-        {(value) => value.toUpperCase()}
-      </Value>
-    </Interpret>
-  )
-}
-
-// a fallback can be passed down to be rendered when undefined value is found: "Fallback"
-function Example6() {
-  return (
-    <Interpret machine={myMachine}>
-      <Value context='missing.key' fallback='Fallback' />
-    </Interpret>
-  )
-}
-
-// with multiple nested machines, you can use machineId to point to the right one: "running" from yourMachine
-const yourMachine = Machine({
-  id: 'your',
-  initial: 'running',
-  state: {
-    running: {}
-  }
-})
-
-function Example7() {
-  return (
-    <Interpret machine={yourMachine}>
-      <Interpret machine={myMachine}>
-        <Value machineId='your' />
-      </Interpret>
-    </Interpret>
-  )
-}
-
-// do not forget, without machineId the closest machine will be used: "idle" from myMachine
-function Example8() {
-  return (
-    <Interpret machine={yourMachine}>
-      <Interpret machine={myMachine}>
+    <Interpret machine={authMachine}>
+      <Interpret machine={counterMachine}>
+        {/* get the closest machine's state: "idle" */}
         <Value />
+
+        {/* parse the state before you get it: "IDLE */}
+        <Value>{(value) => value.toUpperCase()}</Value>
+
+        {/* point to a context value from its key: 0 */}
+        <Value context='value' />
+
+        {/* use dot notation is supported to read from nested keys: 1 */}
+        <Value context='increments[0].min' />
+
+        {/* parse the context before return it: 200 */}
+        <Value context='increments[1].max'>{(value) => value * 10}</Value>
+
+        {/* pass a fallback to return when undefined value is found: "Fallback" */}
+        <Value context='non.existend.key' fallback='Fallback' />
+
+        {/* point to another machine by its id: "logged" */}
+        <Value machineId='auth' />
       </Interpret>
     </Interpret>
   )

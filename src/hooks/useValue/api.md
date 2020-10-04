@@ -21,113 +21,89 @@ Check **TUseValue** to see the type/signature of the hook:
 ### Examples:
 
 ```jsx
-const myMachine = Machine({
-  id: 'my',
+const authMachine = Machine({
+  id: 'auth',
   context: {
-    message: 'Context Message',
-    errors: [
+    user: {
+      name: 'Marcelo Silva'
+    }
+  },
+  initial: 'logged',
+  states: {
+    guest: {
+      on: {
+        LOGIN: 'logged'
+      }
+    },
+    logged: {
+      on: {
+        LOGOUT: 'guest'
+      }
+    }
+  }
+})
+
+const counterMachine = Machine({
+  id: 'counter',
+  context: {
+    value: 0,
+    increments: [
       {
-        message: 'Error Message'
+        min: 1,
+        max: 10
+      },
+      {
+        min: 2,
+        max: 20
       }
     ]
   },
   initial: 'idle',
-  states: {
+  state: {
     idle: {}
   }
 })
 
-const yourMachine = Machine({
-  id: 'your',
-  initial: 'running',
-  state: {
-    running: {}
-  }
-})
-
-function Examples() {
+function Machines() {
   return (
-    <Interpret machine={yourMachine}>
-      <Interpret machine={myMachine}>
-        <Example1 />
-
-        <Example2 />
-
-        <Example3 />
-
-        <Example4 />
-
-        <Example5 />
-
-        <Example6 />
-
-        <Example7 />
-
-        <Example8 />
+    <Interpret machine={authMachine}>
+      <Interpret machine={counterMachine}>
+        <Examples />
       </Interpret>
     </Interpret>
   )
 }
 
-// you can get the string of the current state: "idle"
-function Example1() {
-  const state = useValue()
+function Examples() {
+  // get the closest machine's state
+  const value1 = useValue() // "idle"
 
-  /* ... */
-}
-
-// you can parse the state before get it: "IDLE"
-function Example2() {
-  const state = useValue({ parse: (value) => value.toUpperCase() })
-
-  /* ... */
-}
-
-// instead of the state, you can point to the context: "Context Message"
-function Example3() {
-  const state = useValue({ context: 'messages' })
-
-  /* ... */
-}
-
-// you can use dot notation to get context values: "Error Message"
-function Example4() {
-  const state = useValue({ context: 'errors[0].message' })
-
-  /* ... */
-}
-
-// and, of course, parse the context before returning it: "ERROR MESSAGE"
-function Example5() {
-  const state = useValue({
-    context: 'errors[0].message',
+  // parse the state before you get it
+  const value2 = useValue({
     parse: (value) => value.toUpperCase()
-  })
+  }) // "IDLE"
 
-  /* ... */
-}
+  // point to a context value from its key
+  const value3 = useValue({ context: 'value' }) // 0
 
-// a fallback can be passed down to be returned when undefined value is found: "Fallback"
-function Example6() {
-  const state = useValue({
-    context: 'missing.key',
+  // use dot notation is supported to read from nested keys
+  const value4 = useValue({ context: 'increments[0].min' }) // 1
+
+  // parse the context before return it
+  const value5 = useValue({
+    context: 'increments[1].max',
+    parse: (value) => value * 10
+  }) // 200
+
+  // pass a fallback to return when undefined value is found
+  const value6 = useValue({
+    context: 'non.existend.key',
     fallback: 'Fallback'
-  })
+  }) // "Fallback"
 
-  /* ... */
-}
+  // point to another machine by its id
+  const value7 = useValue({ machineId: 'auth' }) // "logged"
 
-// with multiple nested machines, you can use machineId to point to the right one: "running" from yourMachine
-function Example7() {
-  const state = useValue({ machineId: 'your' })
-
-  /* ... */
-}
-
-// do not forget, without machineId the closest machine will be used: "idle" from myMachine
-function Example8() {
-  const state = useValue()
-
-  /* ... */
+  return /* ... */
 }
 ```
