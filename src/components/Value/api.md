@@ -9,10 +9,10 @@ Check **TValueProps** to see the type/signature of the Component:
 
 | Prop      | Required | Type                                          | Default | Description                                                  |
 | --------- | -------- | --------------------------------------------- | ------- | ------------------------------------------------------------ |
-| machineId | no       | string                                        |         | targets the machine by the id it was registered on Interpret |
-| context   | no       | string                                        |         | points to the context of the machine with dot notation       |
 | children  | no       | (value: any, state: TState) => ReactNode      |         | parses the value before render it to the screen              |
+| context   | no       | string                                        |         | points to the context of the machine with dot notation       |
 | fallback  | no       | ReactNode \|\| ((state: TState) => ReactNode) | null    | renders the fallback value if none (undefined) was found     |
+| machineId | no       | string                                        |         | targets the machine by the id it was registered on Interpret |
 
 ### Examples:
 
