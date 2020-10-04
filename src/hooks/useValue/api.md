@@ -7,16 +7,16 @@ Returns the machine finite (state.value) or infinite (state.context)
 Check **TUseValue** to see the type/signature of the hook:
 [https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts](https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts)
 
-| Args    | Required | Type | Default | Description                                      |
-| ------- | -------- | ---- | ------- | ------------------------------------------------ |
-| options | no       |      |         | options of the hook to apply some specific rules |
+| Args    | Required | Type   | Default | Description                                      |
+| ------- | -------- | ------ | ------- | ------------------------------------------------ |
+| options | no       | object |         | options of the hook to apply some specific rules |
 
-| options   | Required | Type   | Default | Description                                                  |
-| --------- | -------- | ------ | ------- | ------------------------------------------------------------ |
-| machineId | no       | string |         | targets the machine by the id it was registered on Interpret |
-| context   | no       | string |         | points to the context of the machine with dot notation       |
-| parse     | no       | TParse |         | parses the value before return it                            |
-| fallback  | no       | any    |         | returns the fallback value if none (undefined) was found     |
+| options   | Required | Type                               | Default | Description                                                  |
+| --------- | -------- | ---------------------------------- | ------- | ------------------------------------------------------------ |
+| machineId | no       | string                             |         | targets the machine by the id it was registered on Interpret |
+| context   | no       | string                             |         | points to the context of the machine with dot notation       |
+| parse     | no       | (value: any, state: TState) => any |         | parses the value before return it                            |
+| fallback  | no       | any \|\| ((state: TState) => any)  |         | returns the fallback value if none (undefined) was found     |
 
 ### Examples:
 
