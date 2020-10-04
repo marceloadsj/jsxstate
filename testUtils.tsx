@@ -12,17 +12,37 @@ const customRender = (component: ReactElement, options?: any): any => {
   return render(component, { wrapper: OldWrapper, ...options })
 }
 
-function getMachine() {
+function getUserMachine() {
   return Machine({
-    id: 'test',
+    id: 'user',
     context: {
-      message: 'Context Message',
-      nested: {
-        list: [
-          {
-            message: 'Nested Context Message'
-          }
-        ]
+      name: 'Marcelo Silva',
+      languages: [
+        {
+          id: 1,
+          name: 'Portuguese'
+        },
+        {
+          id: 2,
+          name: 'English'
+        }
+      ]
+    },
+    initial: 'logged',
+    states: {
+      logged: {}
+    }
+  })
+}
+
+function getCountMachine() {
+  return Machine({
+    id: 'count',
+    context: {
+      value: 0,
+      increments: {
+        min: [5, 10],
+        max: [50, 100]
       }
     },
     initial: 'idle',
@@ -33,18 +53,20 @@ function getMachine() {
 }
 
 const Wrapper: FC = ({ children }) => (
-  <Interpret machine={getMachine()}>{children}</Interpret>
+  <Interpret machine={getCountMachine()}>
+    <Interpret machine={getUserMachine()}>{children}</Interpret>
+  </Interpret>
 )
 
-function renderWithMachine(ui: ReactElement, options?: any): any {
+function renderWithMachines(ui: ReactElement, options?: any): any {
   return render(ui, { wrapper: Wrapper, ...options })
 }
 
-function renderHookWithMachine(
+function renderHookWithMachines(
   callback: (props: unknown) => unknown,
   options?: any
 ): any {
   return renderHook(callback, { wrapper: Wrapper, ...options })
 }
 
-export { customRender as render, renderWithMachine, renderHookWithMachine }
+export { customRender as render, renderWithMachines, renderHookWithMachines }
