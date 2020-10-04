@@ -5,8 +5,11 @@ import { TUseValue } from '../../types'
 const useValue: TUseValue = ({ machineId, context, parse, fallback } = {}) => {
   const [state] = useContextMachine(machineId) || []
 
-  // when no state found returns undefined
-  if (!state) return
+  if (!state) {
+    throw new Error(
+      'The useValue hook should be used on a component bellow an Interpret context'
+    )
+  }
 
   let value = state.value
 

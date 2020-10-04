@@ -1,3 +1,5 @@
+import { renderHook } from '@testing-library/react-hooks'
+
 import { renderHookWithMachines } from '../../../testUtils'
 import useValue from '.'
 import { TState } from '../../types'
@@ -5,6 +7,18 @@ import { TState } from '../../types'
 describe('useValue', () => {
   it('is truthy', () => {
     expect(useValue).toBeTruthy()
+  })
+
+  it('throws error when used with no context provided', () => {
+    renderHook(() => {
+      expect(useValue()).toThrowError()
+    })
+  })
+
+  it('throws error when used with no context for machineId provided', () => {
+    renderHookWithMachines(() => {
+      expect(useValue({ machineId: 'missing' })).toThrowError()
+    })
   })
 })
 

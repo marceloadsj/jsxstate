@@ -1,5 +1,5 @@
 import React from 'react'
-import { screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 
 import { renderWithMachines } from '../../../testUtils'
 import Value from '.'
@@ -8,6 +8,16 @@ import { TState } from '../../types'
 describe('Value', () => {
   it('is truthy', () => {
     expect(Value).toBeTruthy()
+  })
+
+  it('throws error when used with no context provided', () => {
+    expect(() => render(<Value />)).toThrowError()
+  })
+
+  it('throws error when used with no context for machineId provided', () => {
+    expect(() => {
+      renderWithMachines(<Value machineId='missing' />)
+    }).toThrowError()
   })
 })
 
