@@ -4,7 +4,12 @@ import { useMachine } from '@xstate/react'
 import { TInterpretProps } from '../../types'
 import MachineContext from '../MachineContext'
 
-const Interpret: FC<TInterpretProps> = ({ machine, options, id, children }) => {
+const Interpret: FC<TInterpretProps> = ({
+  machine,
+  options,
+  machineId,
+  children
+}) => {
   // Create the current machine with options
   const currentMachine = useMachine(machine, options)
 
@@ -21,13 +26,13 @@ const Interpret: FC<TInterpretProps> = ({ machine, options, id, children }) => {
     value = { ...previousMachine, ...value }
   }
 
-  // We create a pointer the machine using its own id our the id prop
-  const parsedId = id || machine.id
+  // We create a pointer the machine using its own machineId our the machineId prop
+  const parsedId = machineId || machine.id
 
   if (parsedId) {
     if (process.env.NODE_ENV === 'development' && value[parsedId]) {
       console.warn(
-        `Machine with id '${parsedId}' already exists in this context, it will not be overwritten. Use the 'id' prop to create a pointer to that specific machine.`
+        `Machine with id '${parsedId}' already exists in this context, it will not be overwritten. Use the 'machineId' prop to create a pointer to that specific machine.`
       )
     } else {
       value[parsedId] = machineRef

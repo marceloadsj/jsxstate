@@ -240,7 +240,7 @@ describe('Interpret id', () => {
     }
 
     render(
-      <Interpret machine={testMachine} id='another'>
+      <Interpret machine={testMachine} machineId='another'>
         <Children />
       </Interpret>
     )
