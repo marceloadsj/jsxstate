@@ -19,7 +19,7 @@ export type TInterpretProps = {
   children: TInterpretChildren
   machine: StateMachine<any, any, any, any>
   options?: any
-  id?: string
+  machineId?: string
 }
 
 // MachineContext
@@ -34,7 +34,9 @@ export type TMachineContext = {
 }
 
 // useContextMachine
-export type TUseContextMachine = (id?: string) => TUseMachineReturn | undefined
+export type TUseContextMachine = (
+  machineId?: string
+) => TUseMachineReturn | undefined
 
 // Matches & useMatches
 type TMatchesShared = {
