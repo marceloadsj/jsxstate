@@ -1,12 +1,12 @@
-# jsxstate
+<img src="https://raw.githubusercontent.com/marceloadsj/jsxstate/master/logo.png" alt="jsxstate" width="300" height="59" />
 
-> Declarative UIs for declarative XState machines
+### Declarative UIs for declarative XState machines
 
 [![NPM](https://img.shields.io/npm/v/jsxstate.svg)](https://www.npmjs.com/package/jsxstate) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Travis](https://travis-ci.com/marceloadsj/jsxstate.svg?branch=master)](https://travis-ci.com/marceloadsj/jsxstate.svg?branch=master)
 
 ---
 
-## Motivation
+## jsxstate - Motivation
 
 The main idea of the library is to provide an easy way to write React UIs based on XState machines using components only (or mainly).
 Instead of writing imperactive coding, creating functions to trigger events or creating complex hooks, you can focus in writing components that communicate with your machine, render desired data when a machine state matches and stuffs like that.
