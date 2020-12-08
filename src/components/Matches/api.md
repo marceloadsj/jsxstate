@@ -25,63 +25,37 @@ In that case, the _fallback_ prop is just ignored as you have full control of th
 ### Examples:
 
 ```jsx
-const userMachine = Machine(/* ... */)
+const userMachine = Machine({ id: 'user' /* ... */ })
+const loadingMachine = Machine({ id: 'loading' /* ... */ })
 
-// If the state.value === "logged", the message will be rendered
 function Component() {
   return (
     <Interpret machine={userMachine}>
-      <Matches value='logged'>
-        Welcome <Value context='user.name' />!
-      </Matches>
-    </Interpret>
-  )
-}
-```
+      <Interpret machine={loadingMachine}>
+        {/* render the message when the state matches */}
+        <Matches machineId='user' value='logged'>
+          Welcome <Value context='user.name' />!
+        </Matches>
 
-```jsx
-const userMachine = Machine(/* ... */)
+        {/* target a context to compare with the match function */}
+        <Matches context='user.subscribed' value={false}>
+          Please, subscribe to our channel
+        </Matches>
 
-// The context prop can be used to target a state.context key
-function Component() {
-  return (
-    <Interpret machine={userMachine}>
-      <Matches context='user.subscribed' value={false}>
-        Please, subscribe to our channel
-      </Matches>
-    </Interpret>
-  )
-}
-```
+        {/* render the fallback when the match returns false */}
+        <Matches
+          machineId='loading'
+          value='idle'
+          fallback={<p>The machine is running on a state that is not idle</p>}
+        >
+          <p>The machine is on an idle state</p>
+        </Matches>
 
-```jsx
-const loadingMachine = Machine(/* ... */)
-
-// Fallback is rendered if it does not match
-function Component() {
-  return (
-    <Interpret machine={loadingMachine}>
-      <Matches
-        value='idle'
-        fallback={<p>The machine is running on a state that is not idle</p>}
-      >
-        <p>The machine is on an idle state</p>
-      </Matches>
-    </Interpret>
-  )
-}
-```
-
-```jsx
-const userMachine = Machine(/* ... */)
-
-// You can use the not prop to revert the comparison
-function Component() {
-  return (
-    <Interpret machine={userMachine}>
-      <Matches value='logged' not>
-        Please, login with your credentials!
-      </Matches>
+        {/* revert the comparison with the not prop: true */}
+        <Matches value='logged' not>
+          Please, login with your credentials!
+        </Matches>
+      </Interpret>
     </Interpret>
   )
 }

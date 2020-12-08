@@ -7,12 +7,12 @@ Renders a component enhancing event listeners to send events to the machine or d
 Check **TSendProps** to see the type/signature of the Component:
 [https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts](https://github.com/marceloadsj/jsxstate/blob/master/src/types.ts)
 
-| Prop            | Required | Type                  | Default | Description                                                      |
-| --------------- | -------- | --------------------- | ------- | ---------------------------------------------------------------- |
-| as              | no       | string \|\| ReactNode | button  | renders the specific tag, can be even another React component    |
-| event listeners | no       | Events                |         | abstracts the creation of the send event direct on those props   |
-| dom attributes  | no       | Attributes            |         | points a prop to the context of a machine accepting dot notation |
-| machineId       | no       | string                |         | targets the machine by the id it was registered on Interpret     |
+| Prop            | Required | Type       | Default | Description                                                      |
+| --------------- | -------- | ---------- | ------- | ---------------------------------------------------------------- |
+| as              | no       | any        | button  | renders the specific tag, can be even another React component    |
+| event listeners | no       | Events     |         | abstracts the creation of the send event direct on those props   |
+| dom attributes  | no       | Attributes |         | points a prop to the context of a machine accepting dot notation |
+| machineId       | no       | string     |         | targets the machine by the id it was registered on Interpret     |
 
 Check [this file](https://github.com/marceloadsj/jsxstate/blob/master/src/constants/index.tsx) for a complete list of the events and attributes
 
@@ -53,28 +53,16 @@ const myMachine = Machine({
   }
 })
 
-// you can pass the event type to trigger the send onClick
-function Example1() {
+function Component() {
   return (
     <Interpret machine={myMachine}>
+      {/* pass the event type to trigger the send onClick */}
       <Send onClick='START'>Start</Send>
-    </Interpret>
-  )
-}
 
-// the object schema is supported as well so you can add other attributes
-function Example2() {
-  return (
-    <Interpret machine={myMachine}>
+      {/* object schema is supported as well so just add other attributes */}
       <Send onClick={{ type: 'START', payload: 10 }}>Start</Send>
-    </Interpret>
-  )
-}
 
-// if you want to run other things, just use a function and return the event as string or object
-function Example3() {
-  return (
-    <Interpret machine={myMachine}>
+      {/* use a function and return the event as string or object */}
       <Send
         onClick={(event) => {
           event.stopPropagation()
@@ -84,14 +72,19 @@ function Example3() {
       >
         Start
       </Send>
-    </Interpret>
-  )
-}
 
-// or use the received params to read from state or trigger events by yourself
-function Example4() {
-  return (
-    <Interpret machine={myMachine}>
+      {/* the function can be async */}
+      <Send
+        onClick={async () => {
+          await validateForm()
+
+          return { type: 'SUBMIT' }
+        }}
+      >
+        Start
+      </Send>
+
+      {/* the received params can be used to read from state or send events */}
       <Send
         onClick={(event, _state, send) => {
           event.stopPropagation()
@@ -103,16 +96,10 @@ function Example4() {
           }, 5000)
         }}
       >
-        Start & Stop
+        Start And Stop
       </Send>
-    </Interpret>
-  )
-}
 
-// if you want to map to context, simply pass the context key on attribute as dot notation
-function Example5() {
-  return (
-    <Interpret machine={myMachine}>
+      {/* map some props to context by simply passing the dot notation */}
       <Send as='input' type='number' value='count.value' onChange='SET_COUNT' />
     </Interpret>
   )
