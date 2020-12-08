@@ -26,11 +26,11 @@ export const get: TGet = (value, path) => {
 }
 
 export const getEventListener: TGetEventListener = ({ state, send, type }) => {
-  return (event) => {
+  return async (event) => {
     let parsedType = type
 
     if (typeof type === 'function') {
-      parsedType = type(event, state, send)
+      parsedType = await type(event, state, send)
     }
 
     if (!parsedType) return

@@ -30,7 +30,7 @@ const useSend: TUseSend = (type, machineId) => {
   typeRef.current = type
 
   return useCallback(
-    (event) => {
+    async (event) => {
       if (stateRef.current && send) {
         const eventListener = getEventListener({
           state: stateRef.current,
@@ -38,7 +38,7 @@ const useSend: TUseSend = (type, machineId) => {
           type: typeRef.current
         })
 
-        eventListener(event)
+        await eventListener(event)
       }
     },
     [send]
